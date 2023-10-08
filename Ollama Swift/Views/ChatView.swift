@@ -8,14 +8,19 @@
 import SwiftUI
 
 struct ChatView: View {
-    @State private var prompt: promptModel = promptModel(prompt: "hello", model: "mistral:latest", systemPrompt: "")
+    @State private var prompt: promptModel = promptModel(prompt: "hello", model: "mistral:latest", system: "")
     @State private var responses: [responseModel]?
     @State private var backFromResponse = "Response is displayed here"
     @State private var tags: tagsParent?
     
     var body: some View {
         VStack{
-            Text(backFromResponse)
+            ScrollView{
+                Text(.init(backFromResponse))
+                    .padding()
+                    .background(Color(white: 0.3))
+                    .textSelection(.enabled)
+            }
             
             Spacer()
             
@@ -26,7 +31,7 @@ struct ChatView: View {
                             Text(model.name).tag(model.name)
                         }
                     }
-                    TextField("System prompt:", text: $prompt.systemPrompt, axis: .vertical)
+                    TextField("System prompt:", text: $prompt.system, axis: .vertical)
                         .lineLimit(2...3)
                     TextField("Prompt Message:", text: $prompt.prompt, axis: .vertical)
                         .lineLimit(2...5)

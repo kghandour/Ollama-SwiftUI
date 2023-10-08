@@ -10,5 +10,5 @@ import Foundation
 struct promptModel: Encodable {
     var prompt: String
     var model: String
-    var systemPrompt: String
+    var system: String
 }
