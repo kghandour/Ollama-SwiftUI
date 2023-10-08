@@ -23,6 +23,7 @@
 		32CDC02E2AD2DEA500D4DA6B /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CDC02D2AD2DEA500D4DA6B /* JSONParser.swift */; };
 		32CDC0302AD2DED600D4DA6B /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CDC02F2AD2DED600D4DA6B /* ChatView.swift */; };
 		32CDC0322AD2DF4200D4DA6B /* ChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CDC0312AD2DF4200D4DA6B /* ChatController.swift */; };
+		32CDC0342AD2F93700D4DA6B /* Tags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CDC0332AD2F93700D4DA6B /* Tags.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		32CDC02D2AD2DEA500D4DA6B /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
 		32CDC02F2AD2DED600D4DA6B /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		32CDC0312AD2DF4200D4DA6B /* ChatController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatController.swift; sourceTree = "<group>"; };
+		32CDC0332AD2F93700D4DA6B /* Tags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tags.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +158,7 @@
 				32CDC0202AD2B50600D4DA6B /* MenuItem.swift */,
 				32CDC0222AD2B57400D4DA6B /* Prompt.swift */,
 				32CDC0242AD2B59700D4DA6B /* Response.swift */,
+				32CDC0332AD2F93700D4DA6B /* Tags.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -326,6 +329,7 @@
 				32CDC0232AD2B57400D4DA6B /* Prompt.swift in Sources */,
 				32CDC02A2AD2DD9200D4DA6B /* Menu.swift in Sources */,
 				327B90492AD17EA300A94F10 /* ContentView.swift in Sources */,
+				32CDC0342AD2F93700D4DA6B /* Tags.swift in Sources */,
 				327B90472AD17EA300A94F10 /* Ollama_SwiftApp.swift in Sources */,
 				32CDC0252AD2B59700D4DA6B /* Response.swift in Sources */,
 				32CDC0282AD2B70000D4DA6B /* NetworkErrors.swift in Sources */,
