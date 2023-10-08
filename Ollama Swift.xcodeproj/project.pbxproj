@@ -14,6 +14,15 @@
 		327B90592AD17EA400A94F10 /* Ollama_SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327B90582AD17EA400A94F10 /* Ollama_SwiftTests.swift */; };
 		327B90632AD17EA400A94F10 /* Ollama_SwiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327B90622AD17EA400A94F10 /* Ollama_SwiftUITests.swift */; };
 		327B90652AD17EA400A94F10 /* Ollama_SwiftUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327B90642AD17EA400A94F10 /* Ollama_SwiftUITestsLaunchTests.swift */; };
+		32CDC0212AD2B50600D4DA6B /* MenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CDC0202AD2B50600D4DA6B /* MenuItem.swift */; };
+		32CDC0232AD2B57400D4DA6B /* Prompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CDC0222AD2B57400D4DA6B /* Prompt.swift */; };
+		32CDC0252AD2B59700D4DA6B /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CDC0242AD2B59700D4DA6B /* Response.swift */; };
+		32CDC0282AD2B70000D4DA6B /* NetworkErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CDC0272AD2B70000D4DA6B /* NetworkErrors.swift */; };
+		32CDC02A2AD2DD9200D4DA6B /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CDC0292AD2DD9200D4DA6B /* Menu.swift */; };
+		32CDC02C2AD2DE7600D4DA6B /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CDC02B2AD2DE7600D4DA6B /* MenuView.swift */; };
+		32CDC02E2AD2DEA500D4DA6B /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CDC02D2AD2DEA500D4DA6B /* JSONParser.swift */; };
+		32CDC0302AD2DED600D4DA6B /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CDC02F2AD2DED600D4DA6B /* ChatView.swift */; };
+		32CDC0322AD2DF4200D4DA6B /* ChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CDC0312AD2DF4200D4DA6B /* ChatController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +54,15 @@
 		327B905E2AD17EA400A94F10 /* Ollama SwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Ollama SwiftUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		327B90622AD17EA400A94F10 /* Ollama_SwiftUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ollama_SwiftUITests.swift; sourceTree = "<group>"; };
 		327B90642AD17EA400A94F10 /* Ollama_SwiftUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ollama_SwiftUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		32CDC0202AD2B50600D4DA6B /* MenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItem.swift; sourceTree = "<group>"; };
+		32CDC0222AD2B57400D4DA6B /* Prompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prompt.swift; sourceTree = "<group>"; };
+		32CDC0242AD2B59700D4DA6B /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
+		32CDC0272AD2B70000D4DA6B /* NetworkErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrors.swift; sourceTree = "<group>"; };
+		32CDC0292AD2DD9200D4DA6B /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
+		32CDC02B2AD2DE7600D4DA6B /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
+		32CDC02D2AD2DEA500D4DA6B /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
+		32CDC02F2AD2DED600D4DA6B /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		32CDC0312AD2DF4200D4DA6B /* ChatController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,8 +113,11 @@
 		327B90452AD17EA300A94F10 /* Ollama Swift */ = {
 			isa = PBXGroup;
 			children = (
+				32CDC0262AD2B6E300D4DA6B /* Utils */,
+				32CDC01F2AD2B4BD00D4DA6B /* Views */,
+				32CDC01E2AD2B4B700D4DA6B /* Controllers */,
+				32CDC01D2AD2B4AB00D4DA6B /* Models */,
 				327B90462AD17EA300A94F10 /* Ollama_SwiftApp.swift */,
-				327B90482AD17EA300A94F10 /* ContentView.swift */,
 				327B904A2AD17EA400A94F10 /* Assets.xcassets */,
 				327B904F2AD17EA400A94F10 /* Ollama_Swift.entitlements */,
 				327B904C2AD17EA400A94F10 /* Preview Content */,
@@ -127,6 +148,44 @@
 				327B90642AD17EA400A94F10 /* Ollama_SwiftUITestsLaunchTests.swift */,
 			);
 			path = "Ollama SwiftUITests";
+			sourceTree = "<group>";
+		};
+		32CDC01D2AD2B4AB00D4DA6B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				32CDC0202AD2B50600D4DA6B /* MenuItem.swift */,
+				32CDC0222AD2B57400D4DA6B /* Prompt.swift */,
+				32CDC0242AD2B59700D4DA6B /* Response.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		32CDC01E2AD2B4B700D4DA6B /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				32CDC0312AD2DF4200D4DA6B /* ChatController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		32CDC01F2AD2B4BD00D4DA6B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				327B90482AD17EA300A94F10 /* ContentView.swift */,
+				32CDC02B2AD2DE7600D4DA6B /* MenuView.swift */,
+				32CDC02F2AD2DED600D4DA6B /* ChatView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		32CDC0262AD2B6E300D4DA6B /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				32CDC0272AD2B70000D4DA6B /* NetworkErrors.swift */,
+				32CDC0292AD2DD9200D4DA6B /* Menu.swift */,
+				32CDC02D2AD2DEA500D4DA6B /* JSONParser.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -259,8 +318,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32CDC0322AD2DF4200D4DA6B /* ChatController.swift in Sources */,
+				32CDC0212AD2B50600D4DA6B /* MenuItem.swift in Sources */,
+				32CDC02C2AD2DE7600D4DA6B /* MenuView.swift in Sources */,
+				32CDC0302AD2DED600D4DA6B /* ChatView.swift in Sources */,
+				32CDC02E2AD2DEA500D4DA6B /* JSONParser.swift in Sources */,
+				32CDC0232AD2B57400D4DA6B /* Prompt.swift in Sources */,
+				32CDC02A2AD2DD9200D4DA6B /* Menu.swift in Sources */,
 				327B90492AD17EA300A94F10 /* ContentView.swift in Sources */,
 				327B90472AD17EA300A94F10 /* Ollama_SwiftApp.swift in Sources */,
+				32CDC0252AD2B59700D4DA6B /* Response.swift in Sources */,
+				32CDC0282AD2B70000D4DA6B /* NetworkErrors.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
