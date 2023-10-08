@@ -36,12 +36,12 @@ final class NDJsonParser_SwiftTests: XCTestCase {
         XCTAssert(parseDataFromString(string: noEndingNewLine).count == 1)
     }
     
-//    func testPerformance() {
-//        let huge = Array(count: 100000, repeatedValue: ndJson).reduce("", combine: +)
-//        self.measureBlock {
-//            self.parseDataFromString(huge)
-//        }
-//    }
+    func testPerformance() {
+        let huge = Array(repeating: ndJson, count: 100000).reduce("", +)
+        self.measure {
+            self.parseDataFromString(string: huge)
+        }
+    }
     
     private func parseDataFromString(string: String) -> [AnyObject] {
         let data = string.data(using: String.Encoding.utf8)!
