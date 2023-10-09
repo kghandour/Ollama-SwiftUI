@@ -7,7 +7,7 @@
 
 import Foundation
 
-let ENDPOINT = "http://192.168.0.107:11434"
+let ENDPOINT = "http://127.0.0.1:11434"
 
 func sendPrompt(prompt: promptModel) async throws -> [responseModel]{
     print("Sending request")
