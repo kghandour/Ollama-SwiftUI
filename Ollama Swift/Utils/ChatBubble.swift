@@ -24,8 +24,8 @@ struct ChatBubble<Content>: View where Content: View {
             if direction == .left {
                 Spacer()
             }
-        }.padding([(direction == .left) ? .leading : .trailing, .top, .bottom], 5)
-        .padding((direction == .right) ? .leading : .trailing, 5)
+        }
+        .padding([(direction == .left) ? .leading : .trailing, .top, .bottom], 5)
     }
 }
 
