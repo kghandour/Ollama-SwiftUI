@@ -24,6 +24,7 @@
 		32CDC0302AD2DED600D4DA6B /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CDC02F2AD2DED600D4DA6B /* ChatView.swift */; };
 		32CDC0322AD2DF4200D4DA6B /* ChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CDC0312AD2DF4200D4DA6B /* ChatController.swift */; };
 		32CDC0342AD2F93700D4DA6B /* Tags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CDC0332AD2F93700D4DA6B /* Tags.swift */; };
+		32D730C72AD3F77100DF8044 /* ChatBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D730C62AD3F77100DF8044 /* ChatBubble.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		32CDC02F2AD2DED600D4DA6B /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		32CDC0312AD2DF4200D4DA6B /* ChatController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatController.swift; sourceTree = "<group>"; };
 		32CDC0332AD2F93700D4DA6B /* Tags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tags.swift; sourceTree = "<group>"; };
+		32D730C62AD3F77100DF8044 /* ChatBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubble.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,6 +189,7 @@
 				32CDC0272AD2B70000D4DA6B /* NetworkErrors.swift */,
 				32CDC0292AD2DD9200D4DA6B /* Menu.swift */,
 				32CDC02D2AD2DEA500D4DA6B /* JSONParser.swift */,
+				32D730C62AD3F77100DF8044 /* ChatBubble.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -322,6 +325,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				32CDC0322AD2DF4200D4DA6B /* ChatController.swift in Sources */,
+				32D730C72AD3F77100DF8044 /* ChatBubble.swift in Sources */,
 				32CDC0212AD2B50600D4DA6B /* MenuItem.swift in Sources */,
 				32CDC02C2AD2DE7600D4DA6B /* MenuView.swift in Sources */,
 				32CDC0302AD2DED600D4DA6B /* ChatView.swift in Sources */,

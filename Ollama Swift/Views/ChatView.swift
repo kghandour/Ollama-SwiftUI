@@ -10,16 +10,48 @@ import SwiftUI
 struct ChatView: View {
     @State private var prompt: promptModel = promptModel(prompt: "hello", model: "mistral:latest", system: "")
     @State private var responses: [responseModel]?
-    @State private var backFromResponse = "Response is displayed here"
+    @State private var sentPrompt: [String] = []
+    @State private var receivedResponse: [String] = []
     @State private var tags: tagsParent?
     
     var body: some View {
         VStack{
-            ScrollView{
-                Text(.init(backFromResponse))
-                    .padding()
-                    .background(Color(white: 0.3))
-                    .textSelection(.enabled)
+            ScrollViewReader { proxy in
+                ScrollView{
+                    ForEach(Array(sentPrompt.enumerated()), id: \.offset) { idx, sent in
+                        ChatBubble(direction: .right) {
+                            Text(.init(sent))
+                                .padding()
+                                .textSelection(.enabled)
+                                .foregroundColor(.white)
+                                .background(Color.blue)
+                        }
+                        if(receivedResponse.indices.contains(idx)){
+                            ChatBubble(direction: .left) {
+                                Text(.init(receivedResponse[idx]))
+                                    .padding()
+                                    .textSelection(.enabled)
+                                    .foregroundColor(.white)
+                                    .background(Color.blue)
+                            }
+                            .id(idx)
+                        }else{
+                            ChatBubble(direction: .left) {
+                                Text(.init("..."))
+                                    .padding()
+                                    .textSelection(.enabled)
+                                    .foregroundColor(.white)
+                                    .background(Color.blue)
+                            }
+                            .id(idx)
+                        }
+                    }
+                    
+                }
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .background(.white)
+                .onChange(of: receivedResponse.count) {
+                    proxy.scrollTo(receivedResponse.count-1)}
             }
             
             Spacer()
@@ -57,11 +89,13 @@ struct ChatView: View {
     func send() {
         Task {
             do{
-                self.backFromResponse = ""
+                self.sentPrompt.append(prompt.prompt)
+                var backFromResponse = ""
                 self.responses = try? await sendPrompt(prompt: prompt)
                 for res in self.responses! {
-                    self.backFromResponse.append(res.response ?? "")
+                    backFromResponse.append(res.response ?? "")
                 }
+                self.receivedResponse.append(backFromResponse)
             }
         }
     }
