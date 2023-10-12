@@ -11,4 +11,6 @@ enum NetError: Error {
     case invalidURL
     case invalidResponse
     case invalidData
+    case unreachable
+    case general
 }
