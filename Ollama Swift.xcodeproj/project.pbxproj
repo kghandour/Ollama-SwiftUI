@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3271CD0F2AD8713000B14DD2 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 3271CD0E2AD8713000B14DD2 /* AlertToast */; };
 		327B90472AD17EA300A94F10 /* Ollama_SwiftApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327B90462AD17EA300A94F10 /* Ollama_SwiftApp.swift */; };
 		327B90492AD17EA300A94F10 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327B90482AD17EA300A94F10 /* ContentView.swift */; };
 		327B904B2AD17EA400A94F10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 327B904A2AD17EA400A94F10 /* Assets.xcassets */; };
@@ -25,6 +26,7 @@
 		32CDC0322AD2DF4200D4DA6B /* ChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CDC0312AD2DF4200D4DA6B /* ChatController.swift */; };
 		32CDC0342AD2F93700D4DA6B /* Tags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CDC0332AD2F93700D4DA6B /* Tags.swift */; };
 		32D730C72AD3F77100DF8044 /* ChatBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D730C62AD3F77100DF8044 /* ChatBubble.swift */; };
+		32D730C92AD5FB8200DF8044 /* ErrorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D730C82AD5FB8200DF8044 /* ErrorModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +69,7 @@
 		32CDC0312AD2DF4200D4DA6B /* ChatController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatController.swift; sourceTree = "<group>"; };
 		32CDC0332AD2F93700D4DA6B /* Tags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tags.swift; sourceTree = "<group>"; };
 		32D730C62AD3F77100DF8044 /* ChatBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubble.swift; sourceTree = "<group>"; };
+		32D730C82AD5FB8200DF8044 /* ErrorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3271CD0F2AD8713000B14DD2 /* AlertToast in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -161,6 +165,7 @@
 				32CDC0222AD2B57400D4DA6B /* Prompt.swift */,
 				32CDC0242AD2B59700D4DA6B /* Response.swift */,
 				32CDC0332AD2F93700D4DA6B /* Tags.swift */,
+				32D730C82AD5FB8200DF8044 /* ErrorModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -210,6 +215,9 @@
 			dependencies = (
 			);
 			name = "Ollama Swift";
+			packageProductDependencies = (
+				3271CD0E2AD8713000B14DD2 /* AlertToast */,
+			);
 			productName = "Ollama Swift";
 			productReference = 327B90432AD17EA300A94F10 /* Ollama Swift.app */;
 			productType = "com.apple.product-type.application";
@@ -282,6 +290,9 @@
 				Base,
 			);
 			mainGroup = 327B903A2AD17EA300A94F10;
+			packageReferences = (
+				3271CD0D2AD8713000B14DD2 /* XCRemoteSwiftPackageReference "AlertToast" */,
+			);
 			productRefGroup = 327B90442AD17EA300A94F10 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -324,6 +335,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32D730C92AD5FB8200DF8044 /* ErrorModel.swift in Sources */,
 				32CDC0322AD2DF4200D4DA6B /* ChatController.swift in Sources */,
 				32D730C72AD3F77100DF8044 /* ChatBubble.swift in Sources */,
 				32CDC0212AD2B50600D4DA6B /* MenuItem.swift in Sources */,
@@ -659,6 +671,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3271CD0D2AD8713000B14DD2 /* XCRemoteSwiftPackageReference "AlertToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/elai950/AlertToast.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.9;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3271CD0E2AD8713000B14DD2 /* AlertToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3271CD0D2AD8713000B14DD2 /* XCRemoteSwiftPackageReference "AlertToast" */;
+			productName = AlertToast;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 327B903B2AD17EA300A94F10 /* Project object */;
 }

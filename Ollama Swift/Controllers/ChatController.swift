@@ -24,11 +24,17 @@ func sendPrompt(prompt: promptModel) async throws -> [responseModel]{
     let encoder = JSONEncoder()
     encoder.keyEncodingStrategy = .convertToSnakeCase
     request.httpBody = try encoder.encode(prompt)
-            
-    let (data, response) = try await URLSession.shared.data(for: request)
+    
+    let data: Data
+    let response: URLResponse
+    
+    do{
+        (data, response) = try await URLSession.shared.data(for: request)
+    }catch{
+        throw NetError.unreachable
+    }
     
     guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-        print("Invalid response")
         throw NetError.invalidResponse
     }
     do {
@@ -50,10 +56,16 @@ func getLocalModels() async throws -> tagsParent{
         throw NetError.invalidURL
     }
             
-    let (data, response) = try await URLSession.shared.data(from: url)
+    let data: Data
+    let response: URLResponse
+    
+    do{
+        (data, response) = try await URLSession.shared.data(from: url)
+    }catch{
+        throw NetError.unreachable
+    }
     
     guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-        print("Invalid response")
         throw NetError.invalidResponse
     }
     do {
@@ -62,7 +74,6 @@ func getLocalModels() async throws -> tagsParent{
         let decoded = try decoder.decode(tagsParent.self, from: data)
         return decoded
     } catch {
-        print(error)
         throw NetError.invalidData
     }
 }
