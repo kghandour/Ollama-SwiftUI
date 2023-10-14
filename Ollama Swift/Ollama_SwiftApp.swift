@@ -10,8 +10,35 @@ import SwiftUI
 @main
 struct Ollama_SwiftApp: App {
     var body: some Scene {
-        WindowGroup {
+        let mainWindow = WindowGroup {
             ContentView()
-        }
+          }
+          #if os(macOS)      
+          Settings {
+            SettingsView()
+          }
+          mainWindow.commands {
+            CommandGroup(after: .newItem) {
+              Button(action: {
+                if let currentWindow = NSApp.keyWindow,
+                  let windowController = currentWindow.windowController {
+                  windowController.newWindowForTab(nil)
+                  if let newWindow = NSApp.keyWindow,
+                    currentWindow != newWindow {
+                      currentWindow.addTabbedWindow(newWindow, ordered: .above)
+                    }
+                }
+              }) {
+                Text("New Tab")
+              }
+              .keyboardShortcut("t", modifiers: [.command])
+            }
+          }
+          #else
+          mainWindow
+          #endif
+//        WindowGroup {
+//            ContentView()
+//        }
     }
 }
