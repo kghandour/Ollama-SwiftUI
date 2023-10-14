@@ -10,7 +10,7 @@ import SwiftUI
 struct ChatView: View {
     let fontSize: CGFloat = 15
     
-    @State private var prompt: promptModel = promptModel(prompt: "", model: "mistral:latest", system: "")
+    @State private var prompt: promptModel = promptModel(prompt: "", model: "", system: "")
     @State private var sentPrompt: [String] = []
     @State private var receivedResponse: [String] = []
     @State private var tags: tagsParent?
@@ -28,7 +28,9 @@ struct ChatView: View {
                     VStack (alignment: .leading) {
                         Text(errorModel.errorTitle)
                             .bold()
+                            .textSelection(.enabled)
                         Text(errorModel.errorMessage)
+                            .textSelection(.enabled)
                     }
                     .frame(maxWidth: .infinity)
                     .padding(5)
@@ -141,6 +143,7 @@ struct ChatView: View {
                 disabledEditor = false
                 errorModel.showError = false
                 tags = try await getLocalModels(host: "\(host):\(port)")
+                prompt.model = tags?.models[0].name ?? ""
             } catch NetError.invalidURL (let error){
                 errorModel = invalidURLError(error: error)
             } catch NetError.invalidData (let error){
