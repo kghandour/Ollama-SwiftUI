@@ -42,6 +42,7 @@ struct ChatView: View {
                             .foregroundStyle(.green)
                     }
                 }
+                Spacer()
                 Button{
                     getTags()
                 }label: {

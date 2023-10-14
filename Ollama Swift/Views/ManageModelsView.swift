@@ -41,6 +41,7 @@ struct ManageModelsView: View {
                             .foregroundStyle(.green)
                     }
                 }
+                Spacer()
                 Button{
                     getTags()
                 }label: {
@@ -64,12 +65,6 @@ struct ManageModelsView: View {
                     }
                 }            }
             .frame(height: 150)
-            Button{
-                getTags()
-            }label: {
-                Image(systemName: "arrow.clockwise")
-                    .frame(width: 20, height: 30, alignment: .center)
-            }
             HStack{
                 Picker("Duplicate Model:", selection: $toDuplicate) {
                     ForEach(tags?.models ?? [], id: \.self) {model in
