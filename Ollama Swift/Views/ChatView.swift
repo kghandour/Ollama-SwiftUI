@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import AlertToast
 
 struct ChatView: View {
     let fontSize: CGFloat = 15
@@ -19,31 +18,41 @@ struct ChatView: View {
     @State private var disabledEditor: Bool = false
     @State private var errorModel: ErrorModel = ErrorModel(showError: false, errorTitle: "", errorMessage: "")
     @FocusState private var promptFieldIsFocused: Bool
-    
+    @AppStorage("host") private var host = "http://127.0.0.1"
+    @AppStorage("port") private var port = "11434"
     
     var body: some View {
         VStack{
-            if(errorModel.showError){
-                VStack{
-                    Text(errorModel.errorTitle)
-                        .bold()
-                    Text(errorModel.errorMessage)
+            HStack{
+                if(errorModel.showError){
+                    VStack (alignment: .leading) {
+                        Text(errorModel.errorTitle)
+                            .bold()
+                        Text(errorModel.errorMessage)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(5)
+                    .background(.red)
+                    .cornerRadius(10)
+                    .foregroundStyle(.white)
+                }else{
+                    HStack{
+                        Text("Server Status: ")
+                        Text("Online")
+                            .foregroundStyle(.green)
+                    }
                 }
-                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
-                .padding(5)
-                .background(.red)
-                .cornerRadius(10)
-            }else{
-                HStack{
-                    Text("Server Status: ")
-                    Text("Online")
-                        .foregroundStyle(.green)
+                Button{
+                    getTags()
+                }label: {
+                    Image(systemName: "arrow.clockwise")
+                        .frame(width: 20, height: 30, alignment: .center)
                 }
             }
             ScrollView{
                 Text("This is the start of your chat")
                     .foregroundStyle(.secondary)
-
+                
                 ForEach(Array(sentPrompt.enumerated()), id: \.offset) { idx, sent in
                     ChatBubble(direction: .right) {
                         Text(.init(sent))
@@ -55,11 +64,11 @@ struct ChatView: View {
                     }
                     ChatBubble(direction: .left) {
                         Text(.init(receivedResponse.indices.contains(idx) ? receivedResponse[idx] : "..."))
-                        .font(.system(size: fontSize))
-                        .padding()
-                        .textSelection(.enabled)
-                        .foregroundStyle(.white)
-                        .background(Color.blue)
+                            .font(.system(size: fontSize))
+                            .padding()
+                            .textSelection(.enabled)
+                            .foregroundStyle(.white)
+                            .background(Color.blue)
                     }
                 }
                 
@@ -73,8 +82,12 @@ struct ChatView: View {
                         Text(model.name).tag(model.name)
                     }
                 }
-                Button("Refresh", action: getTags)
-                Button("Add", action: addModel)
+                NavigationLink{
+                    ManageModelsView()
+                } label: {
+                    Text("Manage Models")
+                        .frame(width: 100, height: 30, alignment: .center)
+                }
             }
             HStack{
                 TextField(" Enter prompt...", text: self.disabledEditor ? .constant(prompt.prompt) : $prompt.prompt, axis: .vertical)
@@ -96,12 +109,12 @@ struct ChatView: View {
                     .onSubmit {
                         !self.disabledButton ? send() : nil
                     }
-
+                
                 Button{
                     send()
                 }label:{
                     Image(systemName: "paperplane")
-                        .frame(width: 20, height: 30, alignment: .trailing)
+                        .frame(width: 20, height: 30, alignment: .center)
                 }
                 .disabled(self.disabledButton)
                 
@@ -109,21 +122,15 @@ struct ChatView: View {
                     resetChat()
                 }label: {
                     Image(systemName: "trash")
-                        .frame(width: 20, height: 30, alignment: .trailing)
+                        .frame(width: 20, height: 30, alignment: .center)
                 }
             }
         }
         .padding()
-//        .toast(isPresenting: $showToast){
-//            AlertToast(type: .error(.red), title: "Hello")
-//        }
+        .frame(minWidth: 400, idealWidth: 700, minHeight: 600, idealHeight: 800)
         .task {
             getTags()
         }
-     }
-    
-    func addModel(){
-        
     }
     
     func getTags(){
@@ -132,27 +139,17 @@ struct ChatView: View {
                 disabledButton = false
                 disabledEditor = false
                 errorModel.showError = false
-                tags = try await getLocalModels()
-            } catch NetError.invalidURL{
-                errorModel.showError = true
-                errorModel.errorTitle = "Ollama is unreachable!"
-                errorModel.errorMessage = "Are you sure Ollama is installed?\n You need to download it from https://ollama.ai/"
-            } catch NetError.invalidData{
-                errorModel.showError = true
-                errorModel.errorTitle = "Invalid Data received!"
-                errorModel.errorMessage = "Looks like there is a problem retrieving the data."
-            } catch NetError.invalidResponse{
-                errorModel.showError = true
-                errorModel.errorTitle = "Error! Receiving an invalid response"
-                errorModel.errorMessage = "Looks like you are receiving a response other than 200!"
-            } catch NetError.unreachable {
-                errorModel.showError = true
-                errorModel.errorTitle = "Server is unreachable"
-                errorModel.errorMessage = "Try to open ollama and continue"
+                tags = try await getLocalModels(host: "\(host):\(port)")
+            } catch NetError.invalidURL (let error){
+                errorModel = invalidURLError(error: error)
+            } catch NetError.invalidData (let error){
+                errorModel = invalidDataError(error: error)
+            } catch NetError.invalidResponse (let error){
+                errorModel = invalidResponseError(error: error)
+            } catch NetError.unreachable (let error){
+                errorModel = unreachableError(error: error)
             } catch {
-                errorModel.showError = true
-                errorModel.errorTitle = "Uknown error"
-                errorModel.errorMessage = "Unknown error shown"
+                errorModel = genericError(error: error)
             }
         }
     }
@@ -168,35 +165,60 @@ struct ChatView: View {
                 self.errorModel.showError = false
                 self.disabledEditor = true
                 self.sentPrompt.append(prompt.prompt)
-                var backFromResponse = ""
-                let responses = try await sendPrompt(prompt: prompt)
-                for res in (responses) {
-                    backFromResponse.append(res.response ?? "")
+                self.receivedResponse.append("")
+                print("Sending request")
+                let endpoint = "\(host):\(port)" + "/api/generate"
+                
+                guard let url = URL(string: endpoint) else {
+                    throw NetError.invalidURL(error: nil)
+                }
+                
+                var request = URLRequest(url: url)
+                request.httpMethod = "POST"
+                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                
+                let encoder = JSONEncoder()
+                encoder.keyEncodingStrategy = .convertToSnakeCase
+                request.httpBody = try encoder.encode(prompt)
+                
+                let data: URLSession.AsyncBytes
+                let response: URLResponse
+                                
+                do{
+                    (data, response) = try await URLSession.shared.bytes(for: request)
+                }catch{
+                    throw NetError.unreachable(error: error)
+                }
+                
+                guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                    throw NetError.invalidResponse(error: nil)
+                }
+                
+                for try await line in data.lines {
+                    let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    let data = line.data(using: .utf8)!
+                    let decoded = try decoder.decode(responseModel.self, from: data)
+                    self.receivedResponse[self.receivedResponse.count-1].append(decoded.response ?? "")
                 }
                 self.disabledEditor = false
                 self.prompt.prompt = ""
-                self.receivedResponse.append(backFromResponse)
-            } catch NetError.invalidURL{
-                errorModel.showError = true
-                errorModel.errorTitle = "Ollama is unreachable!"
-                errorModel.errorMessage = "Are you sure Ollama is installed?\n You need to download it from https://ollama.ai/"
-            } catch NetError.invalidData{
-                errorModel.showError = true
-                errorModel.errorTitle = "Invalid Data received!"
-                errorModel.errorMessage = "Looks like there is a problem retrieving the data."
-            } catch NetError.invalidResponse{
-                errorModel.showError = true
-                errorModel.errorTitle = "Error! Receiving an invalid response"
-                errorModel.errorMessage = "Looks like you are receiving a response other than 200!"
-            } catch NetError.unreachable {
-                errorModel.showError = true
-                errorModel.errorTitle = "Server is unreachable"
-                errorModel.errorMessage = "Try to open ollama and continue"
+            } catch NetError.invalidURL (let error){
+                errorModel = invalidURLError(error: error)
+            } catch NetError.invalidData (let error){
+                errorModel = invalidDataError(error: error)
+            } catch NetError.invalidResponse (let error){
+                errorModel = invalidResponseError(error: error)
+            } catch NetError.unreachable (let error){
+                errorModel = unreachableError(error: error)
             } catch {
-                errorModel.showError = true
-                errorModel.errorTitle = "Uknown error"
-                errorModel.errorMessage = "Unknown error shown"
+                errorModel = genericError(error: error)
             }
         }
     }
+}
+
+
+#Preview {
+    ChatView()
 }

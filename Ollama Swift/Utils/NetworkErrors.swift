@@ -8,9 +8,9 @@
 import Foundation
 
 enum NetError: Error {
-    case invalidURL
-    case invalidResponse
-    case invalidData
-    case unreachable
-    case general
+    case invalidURL(error: Error?)
+    case invalidResponse(error: Error?)
+    case invalidData(error: Error?)
+    case unreachable(error: Error?)
+    case general(error: Error?)
 }

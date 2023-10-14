@@ -13,7 +13,10 @@ struct Ollama_SwiftApp: App {
         let mainWindow = WindowGroup {
             ContentView()
           }
-          #if os(macOS)
+          #if os(macOS)      
+          Settings {
+            SettingsView()
+          }
           mainWindow.commands {
             CommandGroup(after: .newItem) {
               Button(action: {

@@ -7,14 +7,13 @@
 
 import Foundation
 
-let ENDPOINT = "http://127.0.0.1:11434"
 
-func sendPrompt(prompt: promptModel) async throws -> [responseModel]{
+func sendPrompt(host:String, prompt: promptModel) async throws -> [responseModel]{
     print("Sending request")
-    let endpoint = ENDPOINT + "/api/generate"
+    let endpoint = host + "/api/generate"
     
     guard let url = URL(string: endpoint) else {
-        throw NetError.invalidURL
+        throw NetError.invalidURL(error: nil)
     }
     
     var request = URLRequest(url: url)
@@ -31,11 +30,11 @@ func sendPrompt(prompt: promptModel) async throws -> [responseModel]{
     do{
         (data, response) = try await URLSession.shared.data(for: request)
     }catch{
-        throw NetError.unreachable
+        throw NetError.unreachable(error: error)
     }
     
     guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-        throw NetError.invalidResponse
+        throw NetError.invalidResponse(error: nil)
     }
     do {
         let json = try JSONParser.JSONObjectsWithData(data: data)
@@ -45,15 +44,15 @@ func sendPrompt(prompt: promptModel) async throws -> [responseModel]{
         return decoded
     } catch {
         print(error)
-        throw NetError.invalidData
+        throw NetError.invalidData(error: error)
     }
 }
 
-func getLocalModels() async throws -> tagsParent{
-    let endpoint = ENDPOINT + "/api/tags"
+func getLocalModels(host: String) async throws -> tagsParent{
+    let endpoint = host + "/api/tags"
     
     guard let url = URL(string: endpoint) else {
-        throw NetError.invalidURL
+        throw NetError.invalidURL(error: nil)
     }
             
     let data: Data
@@ -62,11 +61,11 @@ func getLocalModels() async throws -> tagsParent{
     do{
         (data, response) = try await URLSession.shared.data(from: url)
     }catch{
-        throw NetError.unreachable
+        throw NetError.unreachable(error: error)
     }
     
     guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-        throw NetError.invalidResponse
+        throw NetError.invalidResponse(error: nil)
     }
     do {
         let decoder = JSONDecoder()
@@ -74,6 +73,6 @@ func getLocalModels() async throws -> tagsParent{
         let decoded = try decoder.decode(tagsParent.self, from: data)
         return decoded
     } catch {
-        throw NetError.invalidData
+        throw NetError.invalidData(error: error)
     }
 }
