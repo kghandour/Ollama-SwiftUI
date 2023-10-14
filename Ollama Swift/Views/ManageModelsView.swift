@@ -27,7 +27,9 @@ struct ManageModelsView: View {
                     VStack (alignment: .leading) {
                         Text(errorModel.errorTitle)
                             .bold()
+                            .textSelection(.enabled)
                         Text(errorModel.errorMessage)
+                            .textSelection(.enabled)
                     }
                     .frame(maxWidth: .infinity)
                     .padding(5)

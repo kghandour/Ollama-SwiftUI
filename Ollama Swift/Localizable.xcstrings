@@ -1,0 +1,161 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    " Enter prompt..." : {
+
+    },
+    "%lld MB" : {
+
+    },
+    "%lld/ %lld MB" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld/ %2$lld MB"
+          }
+        }
+      }
+    },
+    "Add model:" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اضافة نموذج "
+          }
+        }
+      }
+    },
+    "Add Model:" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اضافة نموذج "
+          }
+        }
+      }
+    },
+    "Downloading %@" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تنزيل %@"
+          }
+        }
+      }
+    },
+    "Duplicate Model:" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نسخ نموذج "
+          }
+        }
+      }
+    },
+    "General" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "العام"
+          }
+        }
+      }
+    },
+    "Host IP:" : {
+
+    },
+    "Local Models: " : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "النماذج المتاحة محليا "
+          }
+        }
+      }
+    },
+    "Manage Models" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ادارة النماذج"
+          }
+        }
+      }
+    },
+    "Model:" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "النموذج"
+          }
+        }
+      }
+    },
+    "New Name" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الاسم الجديد"
+          }
+        }
+      }
+    },
+    "New Tab" : {
+
+    },
+    "Online" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "متصل"
+          }
+        }
+      }
+    },
+    "Port:" : {
+
+    },
+    "Server Status: " : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حالة الاتصال"
+          }
+        }
+      }
+    },
+    "This is the start of your chat" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هذه بداية المحادثة"
+          }
+        }
+      }
+    },
+    "To find the model names to download, checkout: https://ollama.ai/library" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "للعثور على أسماء النماذج المراد تنزيلها، قم بالبحث: https://ollama.ai/library"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
