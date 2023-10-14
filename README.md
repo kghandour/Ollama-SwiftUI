@@ -1,5 +1,5 @@
 # Ollama-SwiftUI
-A user-friendly interface for [Ollama AI](https://ollama.ai) created in Swift. 
+A user-friendly interface for [Ollama AI](https://ollama.ai) created in Swift. This application is not directly affiliated with Ollama.ai
 
 ![Ollama SwiftUI](assets/images/OllamaNoBG.png)
 
