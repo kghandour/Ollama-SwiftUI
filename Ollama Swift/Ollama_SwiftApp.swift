@@ -11,9 +11,12 @@ import SwiftUI
 struct Ollama_SwiftApp: App {
     var body: some Scene {
         let mainWindow = WindowGroup {
-            ContentView()
+            ChatView()
           }
-          #if os(macOS)
+          #if os(macOS)      
+          Settings {
+            SettingsView()
+          }
           mainWindow.commands {
             CommandGroup(after: .newItem) {
               Button(action: {

@@ -14,6 +14,6 @@ struct tagsParent: Decodable, Hashable {
 struct tagsModel: Decodable, Hashable {
     let name: String
     let modifiedAt: String
-    let size: Int
+    let size: Double
     let digest: String
 }

@@ -1,15 +1,13 @@
 //
-//  ChatController.swift
+//  ManageModelsController.swift
 //  Ollama Swift
 //
-//  Created by Karim ElGhandour on 08.10.23.
+//  Created by Karim ElGhandour on 14.10.23.
 //
 
 import Foundation
 
-let ENDPOINT = "http://127.0.0.1:11434"
-
-func sendPrompt(prompt: promptModel) async throws -> [responseModel]{
+func deleteModel(name: String) async throws -> [responseModel]{
     print("Sending request")
     let endpoint = ENDPOINT + "/api/generate"
     
@@ -23,7 +21,7 @@ func sendPrompt(prompt: promptModel) async throws -> [responseModel]{
     
     let encoder = JSONEncoder()
     encoder.keyEncodingStrategy = .convertToSnakeCase
-    request.httpBody = try encoder.encode(prompt)
+//    request.httpBody = try encoder.encode(/*prompt*/)
     
     let data: Data
     let response: URLResponse
@@ -45,35 +43,6 @@ func sendPrompt(prompt: promptModel) async throws -> [responseModel]{
         return decoded
     } catch {
         print(error)
-        throw NetError.invalidData(error: error)
-    }
-}
-
-func getLocalModels() async throws -> tagsParent{
-    let endpoint = ENDPOINT + "/api/tags"
-    
-    guard let url = URL(string: endpoint) else {
-        throw NetError.invalidURL(error: nil)
-    }
-            
-    let data: Data
-    let response: URLResponse
-    
-    do{
-        (data, response) = try await URLSession.shared.data(from: url)
-    }catch{
-        throw NetError.unreachable(error: error)
-    }
-    
-    guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-        throw NetError.invalidResponse(error: nil)
-    }
-    do {
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        let decoded = try decoder.decode(tagsParent.self, from: data)
-        return decoded
-    } catch {
         throw NetError.invalidData(error: error)
     }
 }
