@@ -11,7 +11,7 @@ import SwiftUI
 struct Ollama_SwiftApp: App {
     var body: some Scene {
         let mainWindow = WindowGroup {
-            ChatView()
+            ContentView()
           }
           #if os(macOS)      
           Settings {

@@ -7,11 +7,10 @@
 
 import Foundation
 
-let ENDPOINT = "http://127.0.0.1:11434"
 
-func sendPrompt(prompt: promptModel) async throws -> [responseModel]{
+func sendPrompt(host:String, prompt: promptModel) async throws -> [responseModel]{
     print("Sending request")
-    let endpoint = ENDPOINT + "/api/generate"
+    let endpoint = host + "/api/generate"
     
     guard let url = URL(string: endpoint) else {
         throw NetError.invalidURL(error: nil)
@@ -49,8 +48,8 @@ func sendPrompt(prompt: promptModel) async throws -> [responseModel]{
     }
 }
 
-func getLocalModels() async throws -> tagsParent{
-    let endpoint = ENDPOINT + "/api/tags"
+func getLocalModels(host: String) async throws -> tagsParent{
+    let endpoint = host + "/api/tags"
     
     guard let url = URL(string: endpoint) else {
         throw NetError.invalidURL(error: nil)

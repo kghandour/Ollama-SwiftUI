@@ -19,3 +19,10 @@ struct responseModel: Decodable, Hashable {
     let eval_count: Int?
     let eval_duration: Int?
 }
+
+struct downloadResponseModel: Decodable, Hashable {
+    let status: String?
+    let digest: String?
+    let total: Double?
+    let completed: Double?
+}

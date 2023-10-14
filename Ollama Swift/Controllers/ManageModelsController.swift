@@ -7,9 +7,38 @@
 
 import Foundation
 
-func deleteModel(name: String) async throws -> [responseModel]{
+func deleteModel(host:String, name: String) async throws{
     print("Sending request")
-    let endpoint = ENDPOINT + "/api/generate"
+    let endpoint = host + "/api/delete"
+    
+    guard let url = URL(string: endpoint) else {
+        throw NetError.invalidURL(error: nil)
+    }
+    
+    var request = URLRequest(url: url)
+    request.httpMethod = "DELETE"
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    
+    let encoder = JSONEncoder()
+    encoder.keyEncodingStrategy = .convertToSnakeCase
+    request.httpBody = "{\"name\":\"\(name)\"}".data(using: String.Encoding.utf8)!
+    
+    let response: URLResponse
+    
+    do{
+        (_, response) = try await URLSession.shared.data(for: request)
+    }catch{
+        throw NetError.unreachable(error: error)
+    }
+    
+    guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+        throw NetError.invalidResponse(error: nil)
+    }
+}
+
+func copyModel(host:String, source: String, destination: String) async throws {
+    print("Sending request")
+    let endpoint = host + "/api/copy"
     
     guard let url = URL(string: endpoint) else {
         throw NetError.invalidURL(error: nil)
@@ -21,28 +50,17 @@ func deleteModel(name: String) async throws -> [responseModel]{
     
     let encoder = JSONEncoder()
     encoder.keyEncodingStrategy = .convertToSnakeCase
-//    request.httpBody = try encoder.encode(/*prompt*/)
+    request.httpBody = "{\"source\":\"\(source)\", \"destination\":\"\(destination)\"}".data(using: String.Encoding.utf8)!
     
-    let data: Data
     let response: URLResponse
     
     do{
-        (data, response) = try await URLSession.shared.data(for: request)
+        (_, response) = try await URLSession.shared.data(for: request)
     }catch{
         throw NetError.unreachable(error: error)
     }
     
     guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
         throw NetError.invalidResponse(error: nil)
-    }
-    do {
-        let json = try JSONParser.JSONObjectsWithData(data: data)
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        let decoded = try decoder.decode([responseModel].self, from: json)
-        return decoded
-    } catch {
-        print(error)
-        throw NetError.invalidData(error: error)
     }
 }
