@@ -16,7 +16,7 @@ func invalidDataError(error: Error?) -> ErrorModel{
 }
 
 func invalidTagsDataError(error: Error?) -> ErrorModel{
-    return ErrorModel(showError: true, errorTitle: "No models have been detected!", errorMessage: "To download your first model, click on 'Manage Models', and enter a model name in the 'Add Model' field and click download. \(error?.localizedDescription)")
+    return ErrorModel(showError: true, errorTitle: "No models have been detected!", errorMessage: "To download your first model, click on 'Manage Models', and enter a model name in the 'Add Model' field and click download. \(String(describing: error?.localizedDescription))")
 }
 
 func invalidResponseError(error: Error?) -> ErrorModel{
