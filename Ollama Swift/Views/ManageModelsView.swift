@@ -26,8 +26,8 @@ struct ManageModelsView: View {
                 if(errorModel.showError){
                     VStack (alignment: .leading) {
                         Text(errorModel.errorTitle)
-                            .bold()
                             .textSelection(.enabled)
+                            .font(.title2)
                         Text(errorModel.errorMessage)
                             .textSelection(.enabled)
                     }
@@ -54,9 +54,10 @@ struct ManageModelsView: View {
             Text("Local Models: ")
             List(tags?.models ?? [], id: \.self){ model in
                 HStack{
-                    Text(model.name)
-                    Spacer()
-                    Text("\(Int(model.size / 1024 / 1024)) MB")
+                    VStack(alignment: .leading){
+                        Text(model.name)
+                        Text("\(model.size / 1024 / 1024 / 1024, specifier: "%.3f") GB")
+                    }
                     Spacer()
 
                     Button{
@@ -66,7 +67,7 @@ struct ManageModelsView: View {
                             .frame(width: 20, height: 30, alignment: .center)
                     }
                 }            }
-            .frame(height: 150)
+            .frame(height: 200)
             HStack{
                 Picker("Duplicate Model:", selection: $toDuplicate) {
                     ForEach(tags?.models ?? [], id: \.self) {model in
@@ -98,13 +99,15 @@ struct ManageModelsView: View {
                     Text("\(Int(completedSoFar / 1024 / 1024 ))/ \(Int(totalSize / 1024 / 1024)) MB")
                 }
             }
-            VStack{
+            VStack(alignment: .leading){
                 Text("To find the model names to download, checkout: https://ollama.ai/library")
-                    .selectionDisabled(false)
+                    .textSelection(.enabled)
+                Text("A good starting model is llama2. Simply write the model name in the field above")
             }
+            Spacer()
         }
         .padding()
-        .frame(minWidth: 400, idealWidth: 700, minHeight: 600, idealHeight: 800)
+        .frame(minWidth: 400, idealWidth: 500, minHeight: 600, idealHeight: 800)
         .task {
             getTags()
         }
@@ -118,7 +121,7 @@ struct ManageModelsView: View {
             } catch NetError.invalidURL (let error){
                 errorModel = invalidURLError(error: error)
             } catch NetError.invalidData (let error){
-                errorModel = invalidDataError(error: error)
+                errorModel = invalidTagsDataError(error: error)
             } catch NetError.invalidResponse (let error){
                 errorModel = invalidResponseError(error: error)
             } catch NetError.unreachable (let error){
