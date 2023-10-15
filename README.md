@@ -1,10 +1,14 @@
 # Ollama-SwiftUI
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
+<p align="center">
+    <img src="assets/images/OllamaSwift.svg" width="128">
+</p>
 A user-friendly interface for [Ollama AI](https://ollama.ai) created in Swift. This application is not directly affiliated with Ollama.ai
 
-![Ollama SwiftUI](assets/images/OllamaNoBG256.png)
-
 **This app requires Ollama to be installed and online to function.** Install Ollama: https://ollama.ai
-![Chat dialogue example](assets/images/Example1.png)
+![Chat dialogue example](assets/images/LightMode1.png)
 
 ## Features
 1. Chatting with local Large Language Models.
@@ -17,7 +21,7 @@ A user-friendly interface for [Ollama AI](https://ollama.ai) created in Swift. T
 8. Light and Dark Mode
 9. Localizable interface. Currently Localized in: English and Arabic
 
-![Manage Models example](assets/images/Example2.png)
+![Manage Models example](assets/images/LightMode2.png)
 
 ## Getting Started:
 1. Install Ollama ( https://ollama.ai )
@@ -28,3 +32,11 @@ A user-friendly interface for [Ollama AI](https://ollama.ai) created in Swift. T
     - Copy and paste the name and press on the download button
 5. Select the model from the dropdown in the main page to start your conversation
 6. Write your prompt and start the conversation!
+
+## Dark Mode also available!
+![Chat dialogue example darkmode](assets/images/DarkMode1.png)
+![Chat dialogue example darkmode](assets/images/DarkMode2.png)
+
+## Feedback and Contributions:
+For bugs and feedback, please create a new issue or email bugs@kghandour.com 
+Feel free to contribute by creating a Pull request and the best effort will be done to review and merge.
