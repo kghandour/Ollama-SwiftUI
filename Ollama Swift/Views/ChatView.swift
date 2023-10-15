@@ -27,7 +27,7 @@ struct ChatView: View {
                 if(errorModel.showError){
                     VStack (alignment: .leading) {
                         Text(errorModel.errorTitle)
-                            .bold()
+                            .font(.title2)
                             .textSelection(.enabled)
                         Text(errorModel.errorMessage)
                             .textSelection(.enabled)
@@ -147,7 +147,7 @@ struct ChatView: View {
             } catch NetError.invalidURL (let error){
                 errorModel = invalidURLError(error: error)
             } catch NetError.invalidData (let error){
-                errorModel = invalidDataError(error: error)
+                errorModel = invalidTagsDataError(error: error)
             } catch NetError.invalidResponse (let error){
                 errorModel = invalidResponseError(error: error)
             } catch NetError.unreachable (let error){

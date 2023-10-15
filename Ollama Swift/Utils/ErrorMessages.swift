@@ -15,6 +15,10 @@ func invalidDataError(error: Error?) -> ErrorModel{
     return ErrorModel(showError: true, errorTitle: "Invalid Data received", errorMessage: "Looks like there is a problem retrieving the data. \(String(describing: error?.localizedDescription)))")
 }
 
+func invalidTagsDataError(error: Error?) -> ErrorModel{
+    return ErrorModel(showError: true, errorTitle: "No models have been detected!", errorMessage: "To download your first model, click on 'Manage Models', and enter a model name in the 'Add Model' field and click download. \(String(describing: error?.localizedDescription))")
+}
+
 func invalidResponseError(error: Error?) -> ErrorModel{
     return ErrorModel(showError: true, errorTitle: "Invalid Response", errorMessage: "Looks like you are receiving a response other than 200! \(String(describing: error?.localizedDescription)))")
 }
