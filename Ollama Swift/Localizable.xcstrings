@@ -4,7 +4,7 @@
     " Enter prompt..." : {
 
     },
-    "%lld MB" : {
+    "%.3f GB" : {
 
     },
     "%lld/ %lld MB" : {
@@ -16,6 +16,9 @@
           }
         }
       }
+    },
+    "A good starting model is llama2. Simply write the model name in the field above" : {
+
     },
     "Add model:" : {
       "localizations" : {
