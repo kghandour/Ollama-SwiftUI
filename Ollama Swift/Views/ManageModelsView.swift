@@ -22,6 +22,74 @@ struct ManageModelsView: View {
 
     var body: some View {
         VStack(alignment: .leading){
+            Text("Local Models:")
+                .font(.headline)
+            List(tags?.models ?? [], id: \.self){ model in
+                HStack{
+                    VStack(alignment: .leading){
+                        Text(model.name)
+                        Text("\(model.size / 1024 / 1024 / 1024, specifier: "%.3f") GB")
+                    }
+                    Spacer()
+                    
+                    Button{
+                        removeModel(name: model.name)
+                    }label: {
+                        Image(systemName: "trash")
+                            .frame(width: 20, height: 20, alignment: .center)
+                    }
+                }
+            }
+            
+            HStack{
+                Text("Duplicate Model:")
+                        .font(.headline)
+                Picker("Duplicate Model:", selection: $toDuplicate) {
+                    ForEach(tags?.models ?? [], id: \.self) {model in
+                        Text(model.name).tag(model.name)
+                    }
+                }
+                TextField("New Name", text: $newName)
+                    .textFieldStyle(.roundedBorder)
+                Button{
+                    duplicateModel(source: toDuplicate, destination: newName)
+                }label: {
+                    Image(systemName: "doc.on.doc")
+                        .frame(width: 20, height: 20, alignment: .center)
+                }
+            }
+            Spacer()
+            HStack{
+                Text("Add Model:")
+                TextField("Add model:", text: $modelName)
+                    .textFieldStyle(.roundedBorder)
+                Button{
+                    downloadModel(name: modelName)
+                }label: {
+                    Image(systemName: "arrowshape.down.fill")
+                        .frame(width: 20, height: 20, alignment: .center)
+                }
+            }
+            if(showProgress){
+                HStack{
+                    Text("Downloading \(modelName)")
+                    ProgressView(value: completedSoFar, total: totalSize)
+                    Text("\(Int(completedSoFar / 1024 / 1024 ))/ \(Int(totalSize / 1024 / 1024)) MB")
+                }
+            }
+            VStack(alignment: .leading){
+                Text("To find the model names to download, checkout: https://ollama.ai/library")
+                    .textSelection(.enabled)
+                Text("A good starting model is llama2. Simply write the model name in the field above")
+            }
+            Spacer()
+        }
+        .padding()
+        .frame(minWidth: 400, idealWidth: 500, minHeight: 600, idealHeight: 800)
+        .task {
+            getTags()
+        }
+        .toolbar{
             HStack{
                 if(errorModel.showError){
                     VStack (alignment: .leading) {
@@ -48,68 +116,9 @@ struct ManageModelsView: View {
                     getTags()
                 }label: {
                     Image(systemName: "arrow.clockwise")
-                        .frame(width: 20, height: 30, alignment: .center)
+                        .frame(width: 20, height: 20, alignment: .center)
                 }
             }
-            Text("Local Models: ")
-            List(tags?.models ?? [], id: \.self){ model in
-                HStack{
-                    VStack(alignment: .leading){
-                        Text(model.name)
-                        Text("\(model.size / 1024 / 1024 / 1024, specifier: "%.3f") GB")
-                    }
-                    Spacer()
-
-                    Button{
-                        removeModel(name: model.name)
-                    }label: {
-                        Image(systemName: "trash")
-                            .frame(width: 20, height: 30, alignment: .center)
-                    }
-                }            }
-            .frame(height: 200)
-            HStack{
-                Picker("Duplicate Model:", selection: $toDuplicate) {
-                    ForEach(tags?.models ?? [], id: \.self) {model in
-                        Text(model.name).tag(model.name)
-                    }
-                }
-                TextField("New Name", text: $newName)
-                Button{
-                    duplicateModel(source: toDuplicate, destination: newName)
-                }label: {
-                    Image(systemName: "doc.on.doc")
-                        .frame(width: 20, height: 30, alignment: .center)
-                }
-            }
-            HStack{
-                Text("Add Model:")
-                TextField("Add model:", text: $modelName)
-                Button{
-                    downloadModel(name: modelName)
-                }label: {
-                    Image(systemName: "arrowshape.down.fill")
-                        .frame(width: 20, height: 30, alignment: .center)
-                }
-            }
-            if(showProgress){
-                HStack{
-                    Text("Downloading \(modelName)")
-                    ProgressView(value: completedSoFar, total: totalSize)
-                    Text("\(Int(completedSoFar / 1024 / 1024 ))/ \(Int(totalSize / 1024 / 1024)) MB")
-                }
-            }
-            VStack(alignment: .leading){
-                Text("To find the model names to download, checkout: https://ollama.ai/library")
-                    .textSelection(.enabled)
-                Text("A good starting model is llama2. Simply write the model name in the field above")
-            }
-            Spacer()
-        }
-        .padding()
-        .frame(minWidth: 400, idealWidth: 500, minHeight: 600, idealHeight: 800)
-        .task {
-            getTags()
         }
     }
     func getTags(){

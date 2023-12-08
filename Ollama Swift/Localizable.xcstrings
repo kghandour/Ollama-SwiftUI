@@ -1,9 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    " Enter prompt..." : {
-
-    },
     "%.3f GB" : {
 
     },
@@ -60,6 +57,9 @@
         }
       }
     },
+    "Enter prompt..." : {
+
+    },
     "General" : {
       "localizations" : {
         "ar" : {
@@ -73,7 +73,11 @@
     "Host IP:" : {
 
     },
+    "Local Models:" : {
+
+    },
     "Local Models: " : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
