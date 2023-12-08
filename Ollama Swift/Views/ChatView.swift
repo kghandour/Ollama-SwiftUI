@@ -27,17 +27,17 @@ struct ChatView: View {
             ScrollView {
                 Text("This is the start of your chat")
                     .foregroundStyle(.secondary)
+                    .padding()
                 ForEach(Array(self.sentPrompt.enumerated()), id: \.offset) { idx, sent in
                     ChatBubble(direction: .right) {
                         Markdown {
-                            .init(sent)
+                            .init(sent.trimmingCharacters(in: .whitespacesAndNewlines))
                         }
-                        .font(.system(size: self.fontSize))
                         .padding([.leading, .trailing])
                         .padding([.top, .bottom], 8)
                         .textSelection(.enabled)
-                        .foregroundStyle(Color.primary)
-                        .background(Color.secondary)
+                        .foregroundStyle( Color(nsColor:.controlTextColor))
+                        .background(Color(nsColor:.controlColor))
                     }
                     ChatBubble(direction: .left) {
                         Markdown {
@@ -45,12 +45,11 @@ struct ChatView: View {
                                 self.receivedResponse[idx].trimmingCharacters(in: .whitespacesAndNewlines) :
                                 "...")
                         }
-                        .font(.system(size: self.fontSize))
                         .padding([.leading, .trailing])
                         .padding([.top, .bottom], 8)
                         .textSelection(.enabled)
-                        .foregroundStyle(Color.primary)
-                        .background(Color.accentColor)
+                        .foregroundStyle( Color(nsColor: .controlTextColor))
+                        .background(Color(nsColor: .controlAccentColor))
                     }
                 }
             }
@@ -58,7 +57,6 @@ struct ChatView: View {
             Spacer()
             HStack {
                 TextField("Enter prompt...", text: self.disabledEditor ? .constant(self.prompt.prompt) : self.$prompt.prompt, axis: .vertical)
-                    .font(.system(size: self.fontSize))
                     .lineLimit(5)
                     .onChange(of: self.prompt.prompt) {
                         if self.prompt.prompt.count > 0 {
@@ -90,7 +88,7 @@ struct ChatView: View {
                 }
             }
         }
-        .padding()
+        .padding([.leading, .trailing, .bottom])
         .frame(minWidth: 400, idealWidth: 700, minHeight: 600, idealHeight: 800)
         .task {
             self.getTags()
