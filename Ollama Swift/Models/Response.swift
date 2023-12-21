@@ -7,11 +7,12 @@
 
 import Foundation
 
-struct responseModel: Decodable, Hashable {
+struct ResponseModel: Decodable, Hashable {
     let model: String
     let createdAt: String
     let response: String?
     let done: Bool
+    let message : ChatMessage
     let context: [Int]?
     let total_duration: Int?
     let load_duration: Int?
@@ -20,7 +21,7 @@ struct responseModel: Decodable, Hashable {
     let eval_duration: Int?
 }
 
-struct downloadResponseModel: Decodable, Hashable {
+struct DownloadResponseModel: Decodable, Hashable {
     let status: String?
     let digest: String?
     let total: Double?

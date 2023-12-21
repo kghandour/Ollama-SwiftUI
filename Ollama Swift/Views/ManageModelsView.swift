@@ -174,7 +174,7 @@ struct ManageModelsView: View {
                     let decoder = JSONDecoder()
                     decoder.keyDecodingStrategy = .convertFromSnakeCase
                     let data = line.data(using: .utf8)!
-                    let decoded = try decoder.decode(downloadResponseModel.self, from: data)
+                    let decoded = try decoder.decode(DownloadResponseModel.self, from: data)
                     self.completedSoFar = decoded.completed ?? 0
                     self.totalSize = decoded.total ?? 100
                 }

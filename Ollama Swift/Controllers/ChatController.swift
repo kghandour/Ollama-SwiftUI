@@ -8,7 +8,7 @@
 import Foundation
 
 
-func sendPrompt(host:String, prompt: promptModel) async throws -> [responseModel]{
+func sendPrompt(host:String, prompt: PromptModel) async throws -> [ResponseModel]{
     print("Sending request")
     let endpoint = host + "/api/generate"
     
@@ -40,7 +40,7 @@ func sendPrompt(host:String, prompt: promptModel) async throws -> [responseModel
         let json = try JSONParser.JSONObjectsWithData(data: data)
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        let decoded = try decoder.decode([responseModel].self, from: json)
+        let decoded = try decoder.decode([ResponseModel].self, from: json)
         return decoded
     } catch {
         print(error)

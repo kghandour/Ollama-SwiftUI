@@ -11,12 +11,13 @@ import SwiftUI
 struct ChatView: View {
     let fontSize: CGFloat = 15
     
-    @State private var prompt: promptModel = .init(prompt: "", model: "", system: "")
+    @State private var prompt: PromptModel = .init(prompt: "", model: "", system: "")
     @State private var sentPrompt: [String] = []
     @State private var receivedResponse: [String] = []
     @State private var tags: tagsParent?
     @State private var disabledButton: Bool = true
     @State private var disabledEditor: Bool = false
+    @State private var showingErrorPopover: Bool = false
     @State private var errorModel: ErrorModel = .init(showError: false, errorTitle: "", errorMessage: "")
     @FocusState private var promptFieldIsFocused: Bool
     @AppStorage("host") private var host = "http://127.0.0.1"
@@ -36,8 +37,8 @@ struct ChatView: View {
                         .padding([.leading, .trailing])
                         .padding([.top, .bottom], 8)
                         .textSelection(.enabled)
-                        .foregroundStyle( Color(nsColor:.controlTextColor))
-                        .background(Color(nsColor:.controlColor))
+                        .foregroundStyle(Color(nsColor: .controlTextColor))
+                        .background(Color(nsColor: .controlColor))
                     }
                     ChatBubble(direction: .left) {
                         Markdown {
@@ -48,7 +49,7 @@ struct ChatView: View {
                         .padding([.leading, .trailing])
                         .padding([.top, .bottom], 8)
                         .textSelection(.enabled)
-                        .foregroundStyle( Color(nsColor: .controlTextColor))
+                        .foregroundStyle(Color(nsColor: .controlTextColor))
                         .background(Color(nsColor: .controlAccentColor))
                     }
                 }
@@ -94,7 +95,7 @@ struct ChatView: View {
             self.getTags()
         }
         .toolbar {
-            HStack {
+            ToolbarItem(placement: .automatic) {
                 HStack {
                     Picker("Model:", selection: self.$prompt.model) {
                         ForEach(self.tags?.models ?? [], id: \.self) { model in
@@ -107,9 +108,16 @@ struct ChatView: View {
                         Label("Manage Models", systemImage: "gearshape")
                     }
                 }
-                Divider()
-                HStack {
-                    if self.errorModel.showError {
+            }
+            if self.errorModel.showError {
+                ToolbarItem(placement: .automatic) {
+                    Button {
+                        self.showingErrorPopover.toggle()
+                    } label: {
+                        Label("Error", systemImage: "exclamationmark.triangle")
+                            .foregroundStyle(.red)
+                    }
+                    .popover(isPresented: self.$showingErrorPopover) {
                         VStack(alignment: .leading) {
                             Text(self.errorModel.errorTitle)
                                 .font(.title2)
@@ -117,24 +125,25 @@ struct ChatView: View {
                             Text(self.errorModel.errorMessage)
                                 .textSelection(.enabled)
                         }
-                        .frame(maxWidth: .infinity)
-                        .padding(5)
-                        .background(.red)
-                        .cornerRadius(10)
-                        .foregroundStyle(.white)
-                    } else {
-                        HStack {
-                            Text("Server Status: ")
-                            Text("Online")
-                                .foregroundStyle(.green)
-                        }
+                        .padding()
                     }
-                    Button {
-                        self.getTags()
-                    } label: {
-                        Image(systemName: "arrow.clockwise")
-                            .frame(width: 20, height: 20, alignment: .center)
+                }
+
+            } else {
+                ToolbarItem(placement: .automatic) {
+                    HStack {
+                        Text("Server Status: ")
+                        Text("Online")
+                            .foregroundStyle(.green)
                     }
+                }
+            }
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    self.getTags()
+                } label: {
+                    Image(systemName: "arrow.clockwise")
+                        .frame(width: 20, height: 20, alignment: .center)
                 }
             }
         }
@@ -172,10 +181,26 @@ struct ChatView: View {
             do {
                 self.errorModel.showError = false
                 self.disabledEditor = true
+                
+                
+                
                 self.sentPrompt.append(self.prompt.prompt)
+                
+                
+                var chatHistory = ChatModel(model: self.prompt.model, messages: [])
+               
+
+                for i in 0 ..< self.sentPrompt.count {
+                    chatHistory.messages.append(ChatMessage(role: "user", content: self.sentPrompt[i]))
+                    if i < self.receivedResponse.count {
+                        chatHistory.messages.append(ChatMessage(role: "assistant", content: self.receivedResponse[i]))
+                    }
+                }
+                
                 self.receivedResponse.append("")
+                
                 print("Sending request")
-                let endpoint = "\(host):\(port)" + "/api/generate"
+                let endpoint = "\(host):\(port)" + "/api/chat"
                 
                 guard let url = URL(string: endpoint) else {
                     throw NetError.invalidURL(error: nil)
@@ -187,7 +212,7 @@ struct ChatView: View {
                 
                 let encoder = JSONEncoder()
                 encoder.keyEncodingStrategy = .convertToSnakeCase
-                request.httpBody = try encoder.encode(self.prompt)
+                request.httpBody = try encoder.encode(chatHistory)
                 
                 let data: URLSession.AsyncBytes
                 let response: URLResponse
@@ -206,8 +231,8 @@ struct ChatView: View {
                     let decoder = JSONDecoder()
                     decoder.keyDecodingStrategy = .convertFromSnakeCase
                     let data = line.data(using: .utf8)!
-                    let decoded = try decoder.decode(responseModel.self, from: data)
-                    self.receivedResponse[self.receivedResponse.count - 1].append(decoded.response ?? "")
+                    let decoded = try decoder.decode(ResponseModel.self, from: data)
+                    self.receivedResponse[self.receivedResponse.count - 1].append(decoded.message.content ?? "")
                 }
                 self.disabledEditor = false
                 self.prompt.prompt = ""
