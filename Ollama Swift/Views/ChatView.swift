@@ -24,7 +24,8 @@ struct ChatView: View {
     @AppStorage("port") private var port = "11434"
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0)
+        {
             ScrollView {
                 Text("This is the start of your chat")
                     .foregroundStyle(.secondary)
@@ -55,8 +56,7 @@ struct ChatView: View {
                 }
             }
             .defaultScrollAnchor(.bottom)
-            Spacer()
-            HStack {
+            HStack(alignment: .bottom){
                 TextField("Enter prompt...", text: self.disabledEditor ? .constant(self.prompt.prompt) : self.$prompt.prompt, axis: .vertical)
                     .lineLimit(5)
                     .onChange(of: self.prompt.prompt) {
@@ -78,6 +78,7 @@ struct ChatView: View {
                 } label: {
                     Image(systemName: "paperplane")
                         .frame(width: 20, height: 20, alignment: .center)
+                        .foregroundStyle(.blue)
                 }
                 .disabled(self.disabledButton)
                 
@@ -88,8 +89,9 @@ struct ChatView: View {
                         .frame(width: 20, height: 20, alignment: .center)
                 }
             }
+            .padding()
+            .background(.ultraThickMaterial)
         }
-        .padding([.leading, .trailing, .bottom])
         .frame(minWidth: 400, idealWidth: 700, minHeight: 600, idealHeight: 800)
         .task {
             self.getTags()
@@ -182,14 +184,10 @@ struct ChatView: View {
                 self.errorModel.showError = false
                 self.disabledEditor = true
                 
-                
-                
                 self.sentPrompt.append(self.prompt.prompt)
-                
-                
+                                
                 var chatHistory = ChatModel(model: self.prompt.model, messages: [])
                
-
                 for i in 0 ..< self.sentPrompt.count {
                     chatHistory.messages.append(ChatMessage(role: "user", content: self.sentPrompt[i]))
                     if i < self.receivedResponse.count {
@@ -232,7 +230,7 @@ struct ChatView: View {
                     decoder.keyDecodingStrategy = .convertFromSnakeCase
                     let data = line.data(using: .utf8)!
                     let decoded = try decoder.decode(ResponseModel.self, from: data)
-                    self.receivedResponse[self.receivedResponse.count - 1].append(decoded.message.content ?? "")
+                    self.receivedResponse[self.receivedResponse.count - 1].append(decoded.message.content)
                 }
                 self.disabledEditor = false
                 self.prompt.prompt = ""
