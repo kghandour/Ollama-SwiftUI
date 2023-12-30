@@ -10,11 +10,13 @@ A user-friendly interface for [Ollama AI](https://ollama.ai) created in Swift. T
 
 ## Table of Content
 1. [Introduction](#introduction)
-2. [Features](#features)
-3. [Getting Started](#getting-started)
-4. [Frequently Asked Questions](#frequently-asked-questions)
-5. [Dark Mode showcase](#dark-mode-also-available)
-6. [Feedback and Contributions](#feedback-and-contributions)
+2. [Changelog](CHANGELOG.md)
+3. [Features](#features)
+4. [Getting Started](#getting-started)
+5. [Frequently Asked Questions](#frequently-asked-questions)
+6. [Dark Mode showcase](#dark-mode-also-available)
+7. [Feedback and Contributions](#feedback-and-contributions)
+8. [Contribution Hall of Fame](#contributors-hall-of-fame)
 
 ## Introduction
 A user-friendly interface for [Ollama AI](https://ollama.ai) created in Swift. This application is not directly affiliated with Ollama.ai. It allows you to chat seamlessly with Large Language models downloaded to your mac. 
@@ -79,3 +81,6 @@ A user-friendly interface for [Ollama AI](https://ollama.ai) created in Swift. T
 ## Feedback and Contributions:
 For bugs and feedback, please create a new issue or email bugs@kghandour.com 
 Feel free to contribute by creating a Pull request and the best effort will be done to review and merge.
+
+## Contributors Hall of Fame:
+@HiRoS-neko
