@@ -37,6 +37,9 @@
         }
       }
     },
+    "Connected" : {
+
+    },
     "Downloading %@" : {
       "localizations" : {
         "ar" : {
@@ -124,6 +127,7 @@
 
     },
     "Online" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -137,6 +141,7 @@
 
     },
     "Server Status: " : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -145,6 +150,9 @@
           }
         }
       }
+    },
+    "Server:" : {
+
     },
     "This is the start of your chat" : {
       "localizations" : {
