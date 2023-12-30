@@ -22,36 +22,8 @@ struct ManageModelsView: View {
 
     var body: some View {
         VStack(alignment: .leading){
-            HStack{
-                if(errorModel.showError){
-                    VStack (alignment: .leading) {
-                        Text(errorModel.errorTitle)
-                            .textSelection(.enabled)
-                            .font(.title2)
-                        Text(errorModel.errorMessage)
-                            .textSelection(.enabled)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(5)
-                    .background(.red)
-                    .cornerRadius(10)
-                    .foregroundStyle(.white)
-                }else{
-                    HStack{
-                        Text("Server Status: ")
-                        Text("Online")
-                            .foregroundStyle(.green)
-                    }
-                }
-                Spacer()
-                Button{
-                    getTags()
-                }label: {
-                    Image(systemName: "arrow.clockwise")
-                        .frame(width: 20, height: 30, alignment: .center)
-                }
-            }
-            Text("Local Models: ")
+            Text("Local Models:")
+                .font(.headline)
             List(tags?.models ?? [], id: \.self){ model in
                 HStack{
                     VStack(alignment: .leading){
@@ -59,37 +31,43 @@ struct ManageModelsView: View {
                         Text("\(model.size / 1024 / 1024 / 1024, specifier: "%.3f") GB")
                     }
                     Spacer()
-
+                    
                     Button{
                         removeModel(name: model.name)
                     }label: {
                         Image(systemName: "trash")
-                            .frame(width: 20, height: 30, alignment: .center)
+                            .frame(width: 20, height: 20, alignment: .center)
                     }
-                }            }
-            .frame(height: 200)
+                }
+            }
+            
             HStack{
+                Text("Duplicate Model:")
+                        .font(.headline)
                 Picker("Duplicate Model:", selection: $toDuplicate) {
                     ForEach(tags?.models ?? [], id: \.self) {model in
                         Text(model.name).tag(model.name)
                     }
                 }
                 TextField("New Name", text: $newName)
+                    .textFieldStyle(.roundedBorder)
                 Button{
                     duplicateModel(source: toDuplicate, destination: newName)
                 }label: {
                     Image(systemName: "doc.on.doc")
-                        .frame(width: 20, height: 30, alignment: .center)
+                        .frame(width: 20, height: 20, alignment: .center)
                 }
             }
+            Spacer()
             HStack{
                 Text("Add Model:")
                 TextField("Add model:", text: $modelName)
+                    .textFieldStyle(.roundedBorder)
                 Button{
                     downloadModel(name: modelName)
                 }label: {
                     Image(systemName: "arrowshape.down.fill")
-                        .frame(width: 20, height: 30, alignment: .center)
+                        .frame(width: 20, height: 20, alignment: .center)
                 }
             }
             if(showProgress){
@@ -110,6 +88,34 @@ struct ManageModelsView: View {
         .frame(minWidth: 400, idealWidth: 500, minHeight: 600, idealHeight: 800)
         .task {
             getTags()
+        }
+        .toolbar{
+            HStack{
+                if(errorModel.showError){
+                    VStack (alignment: .leading) {
+                        Text(errorModel.errorTitle)
+                            .textSelection(.enabled)
+                            .font(.title2)
+                        Text(errorModel.errorMessage)
+                            .textSelection(.enabled)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(5)
+                    .background(.red)
+                    .cornerRadius(10)
+                    .foregroundStyle(.white)
+                }else{
+                    Text("Server:")
+                    Label("Connected", systemImage: "circle.fill")
+                        .foregroundStyle(.green)
+                }
+                Button{
+                    getTags()
+                }label: {
+                    Image(systemName: "arrow.clockwise")
+                        .frame(width: 20, height: 20, alignment: .center)
+                }
+            }
         }
     }
     func getTags(){
@@ -165,7 +171,7 @@ struct ManageModelsView: View {
                     let decoder = JSONDecoder()
                     decoder.keyDecodingStrategy = .convertFromSnakeCase
                     let data = line.data(using: .utf8)!
-                    let decoded = try decoder.decode(downloadResponseModel.self, from: data)
+                    let decoded = try decoder.decode(DownloadResponseModel.self, from: data)
                     self.completedSoFar = decoded.completed ?? 0
                     self.totalSize = decoded.total ?? 100
                 }
