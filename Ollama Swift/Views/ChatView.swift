@@ -35,23 +35,37 @@ struct ChatView: View {
                         Markdown {
                             .init(sent.trimmingCharacters(in: .whitespacesAndNewlines))
                         }
-                        .padding([.leading, .trailing])
-                        .padding([.top, .bottom], 8)
-                        .textSelection(.enabled)
-                        .foregroundStyle(Color(nsColor: .controlTextColor))
-                        .background(Color(nsColor: .controlColor))
-                    }
-                    ChatBubble(direction: .left) {
-                        Markdown {
-                            .init(self.receivedResponse.indices.contains(idx) ?
-                                self.receivedResponse[idx].trimmingCharacters(in: .whitespacesAndNewlines) :
-                                "...")
+                        .markdownTextStyle{
+                            ForegroundColor(Color.white)
                         }
                         .padding([.leading, .trailing])
                         .padding([.top, .bottom], 8)
                         .textSelection(.enabled)
-                        .foregroundStyle(Color(nsColor: .controlTextColor))
-                        .background(Color(nsColor: .controlAccentColor))
+                        .background(Color.blue)
+                    }
+                    ChatBubble(direction: .left) {
+                        Markdown {
+                            .init(self.receivedResponse.indices.contains(idx) ?
+                                  self.receivedResponse[idx].trimmingCharacters(in: .whitespacesAndNewlines) :
+                                    "...")
+                        }
+                        .markdownTextStyle(\.code) {
+                            FontFamilyVariant(.monospaced)
+                            BackgroundColor(.white.opacity(0.25))
+                        }
+                        .markdownBlockStyle(\.codeBlock) { configuration in
+                            configuration.label
+                                .padding()
+                                .markdownTextStyle {
+                                    FontFamilyVariant(.monospaced)
+                                }
+                                .background(Color.white.opacity(0.25))
+                        }
+                        .padding([.leading, .trailing])
+                        .padding([.top, .bottom], 8)
+                        .textSelection(.enabled)
+                        .foregroundStyle(Color.secondary)
+                        .background(Color(NSColor.secondarySystemFill))
                     }
                 }
             }
@@ -97,7 +111,7 @@ struct ChatView: View {
             self.getTags()
         }
         .toolbar {
-            ToolbarItem(placement: .automatic) {
+            ToolbarItemGroup(placement: .automatic){
                 HStack {
                     Picker("Model:", selection: self.$prompt.model) {
                         ForEach(self.tags?.models ?? [], id: \.self) { model in
@@ -110,9 +124,7 @@ struct ChatView: View {
                         Label("Manage Models", systemImage: "gearshape")
                     }
                 }
-            }
-            if self.errorModel.showError {
-                ToolbarItem(placement: .automatic) {
+                if self.errorModel.showError {
                     Button {
                         self.showingErrorPopover.toggle()
                     } label: {
@@ -129,18 +141,12 @@ struct ChatView: View {
                         }
                         .padding()
                     }
+                    
+                } else {
+                    Text("Server:")
+                    Label("Connected", systemImage: "circle.fill")
+                        .foregroundStyle(.green)
                 }
-
-            } else {
-                ToolbarItem(placement: .automatic) {
-                    HStack {
-                        Text("Server Status: ")
-                        Text("Online")
-                            .foregroundStyle(.green)
-                    }
-                }
-            }
-            ToolbarItem(placement: .primaryAction) {
                 Button {
                     self.getTags()
                 } label: {
@@ -185,9 +191,9 @@ struct ChatView: View {
                 self.disabledEditor = true
                 
                 self.sentPrompt.append(self.prompt.prompt)
-                                
+                
                 var chatHistory = ChatModel(model: self.prompt.model, messages: [])
-               
+                
                 for i in 0 ..< self.sentPrompt.count {
                     chatHistory.messages.append(ChatMessage(role: "user", content: self.sentPrompt[i]))
                     if i < self.receivedResponse.count {
@@ -214,7 +220,7 @@ struct ChatView: View {
                 
                 let data: URLSession.AsyncBytes
                 let response: URLResponse
-                                
+                
                 do {
                     (data, response) = try await URLSession.shared.bytes(for: request)
                 } catch {

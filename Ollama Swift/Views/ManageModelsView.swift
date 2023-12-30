@@ -105,13 +105,10 @@ struct ManageModelsView: View {
                     .cornerRadius(10)
                     .foregroundStyle(.white)
                 }else{
-                    HStack{
-                        Text("Server Status: ")
-                        Text("Online")
-                            .foregroundStyle(.green)
-                    }
+                    Text("Server:")
+                    Label("Connected", systemImage: "circle.fill")
+                        .foregroundStyle(.green)
                 }
-                Spacer()
                 Button{
                     getTags()
                 }label: {
