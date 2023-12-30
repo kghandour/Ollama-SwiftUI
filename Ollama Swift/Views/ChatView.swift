@@ -107,6 +107,7 @@ struct ChatView: View {
             .background(.ultraThickMaterial)
         }
         .frame(minWidth: 400, idealWidth: 700, minHeight: 600, idealHeight: 800)
+        .background(Color(NSColor.controlBackgroundColor))
         .task {
             self.getTags()
         }
