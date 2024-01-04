@@ -13,25 +13,44 @@ struct ChatInputView: View {
     @FocusState var promptFieldIsFocused: Bool
 
     var body: some View {
-        HStack(alignment: .bottom){
-            TextField("Enter prompt...", text: self.viewModel.disabledEditor ? .constant(self.viewModel.prompt.prompt) : self.$viewModel.prompt.prompt, axis: .vertical)
-                .lineLimit(5)
-                .onChange(of: self.viewModel.prompt.prompt) {
-                    if self.viewModel.prompt.prompt.count > 0 {
-                        self.viewModel.disabledButton = false
-                    } else {
-                        self.viewModel.disabledButton = true
+        HStack(alignment: .bottom) {
+            ZStack(alignment: .topLeading) {
+                if viewModel.prompt.prompt.isEmpty {
+                    Text("Enter prompt...")
+                        .foregroundColor(Color.gray)
+                        .padding(.leading, 10)
+                        .padding(.top, 8)
+                }
+                
+                TextEditor(text: self.$viewModel.prompt.prompt)
+                    .padding(.leading, 5)
+                    .padding(.top, 8)
+                    .frame(minHeight: 45, maxHeight: 200)
+                    .foregroundColor(.primary)
+                    .dynamicTypeSize(.medium ... .xxLarge)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .opacity(viewModel.prompt.prompt.isEmpty ? 0.5 : 1)
+                    .onChange(of: viewModel.prompt.prompt) { newValue, _ in
+                        viewModel.disabledButton = newValue.isEmpty
                     }
+                    .focused(self.$promptFieldIsFocused)
+                    .disabled(viewModel.disabledEditor)
+            }
+            .frame(minHeight: 36)
+
+            SendButton(disabledButton: $viewModel.disabledButton, action: {
+                Task { @MainActor in
+                    viewModel.send()
                 }
-                .focused(self.$promptFieldIsFocused)
-                .disabled(self.viewModel.disabledEditor)
-                .onSubmit {
-                    !self.viewModel.disabledButton ? self.viewModel.send() : nil
+            })
+            .padding(.bottom, 8)
+
+            ResetButton(action: {
+                Task { @MainActor in
+                    viewModel.resetChat()
                 }
-                .textFieldStyle(.roundedBorder)
-            
-            SendButton(disabledButton: $viewModel.disabledButton, action: viewModel.send)
-            ResetButton(action: viewModel.resetChat)
+            })
+            .padding(.bottom, 8)
         }
         .padding()
         .background(.ultraThickMaterial)
