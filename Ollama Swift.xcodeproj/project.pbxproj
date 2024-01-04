@@ -250,6 +250,7 @@
 		32CDC01E2AD2B4B700D4DA6B /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				154E321D2B4654E400FD62D5 /* NetworkManager.swift */,
 				32CDC0312AD2DF4200D4DA6B /* ChatService.swift */,
 				320EE92D2ADAED4F00758FB9 /* ManageModelService.swift */,
 			);
@@ -277,7 +278,6 @@
 				32CDC02D2AD2DEA500D4DA6B /* JSONParser.swift */,
 				3271CD102ADAC94500B14DD2 /* ErrorMessages.swift */,
 				154E32192B464E3000FD62D5 /* DefaultSettings.swift */,
-				154E321D2B4654E400FD62D5 /* NetworkManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
