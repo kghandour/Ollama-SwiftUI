@@ -127,6 +127,14 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		154E321F2B46646E00FD62D5 /* Composants */ = {
+			isa = PBXGroup;
+			children = (
+				32D730C62AD3F77100DF8044 /* ChatBubble.swift */,
+			);
+			path = Composants;
+			sourceTree = "<group>";
+		};
 		327B903A2AD17EA300A94F10 = {
 			isa = PBXGroup;
 			children = (
@@ -150,10 +158,10 @@
 		327B90452AD17EA300A94F10 /* Ollama Swift */ = {
 			isa = PBXGroup;
 			children = (
-				154E32162B4648F400FD62D5 /* ViewModels */,
 				32CDC0262AD2B6E300D4DA6B /* Utils */,
+				32CDC01E2AD2B4B700D4DA6B /* Services */,
+				154E32162B4648F400FD62D5 /* ViewModels */,
 				32CDC01F2AD2B4BD00D4DA6B /* Views */,
-				32CDC01E2AD2B4B700D4DA6B /* Controllers */,
 				32CDC01D2AD2B4AB00D4DA6B /* Models */,
 				327B90462AD17EA300A94F10 /* Ollama_SwiftApp.swift */,
 				327B904A2AD17EA400A94F10 /* Assets.xcassets */,
@@ -202,18 +210,19 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		32CDC01E2AD2B4B700D4DA6B /* Controllers */ = {
+		32CDC01E2AD2B4B700D4DA6B /* Services */ = {
 			isa = PBXGroup;
 			children = (
 				32CDC0312AD2DF4200D4DA6B /* ChatService.swift */,
 				320EE92D2ADAED4F00758FB9 /* ManageModelService.swift */,
 			);
-			path = Controllers;
+			path = Services;
 			sourceTree = "<group>";
 		};
 		32CDC01F2AD2B4BD00D4DA6B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				154E321F2B46646E00FD62D5 /* Composants */,
 				32CDC02B2AD2DE7600D4DA6B /* MenuView.swift */,
 				32CDC02F2AD2DED600D4DA6B /* ChatView.swift */,
 				3271CD122ADAD23400B14DD2 /* SettingsView.swift */,
@@ -226,10 +235,9 @@
 		32CDC0262AD2B6E300D4DA6B /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				32CDC0272AD2B70000D4DA6B /* NetworkErrors.swift */,
 				32CDC0292AD2DD9200D4DA6B /* Menu.swift */,
+				32CDC0272AD2B70000D4DA6B /* NetworkErrors.swift */,
 				32CDC02D2AD2DEA500D4DA6B /* JSONParser.swift */,
-				32D730C62AD3F77100DF8044 /* ChatBubble.swift */,
 				3271CD102ADAC94500B14DD2 /* ErrorMessages.swift */,
 				154E32192B464E3000FD62D5 /* DefaultSettings.swift */,
 				154E321D2B4654E400FD62D5 /* NetworkManager.swift */,
