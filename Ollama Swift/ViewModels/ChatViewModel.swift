@@ -14,7 +14,7 @@ class ChatViewModel: ObservableObject {
     @Published var prompt: PromptModel = .init(prompt: "", model: "", system: "")
     @Published var sentPrompt: [String] = []
     @Published var receivedResponse: [String] = []
-    @Published var tags: tagsParent?
+    @Published var tags: TagsParent?
     @Published var disabledButton: Bool = true
     @Published var disabledEditor: Bool = false
     @Published var errorModel: ErrorModel = .init(showError: false, errorTitle: "", errorMessage: "")

@@ -11,7 +11,7 @@ import Combine
 
 @MainActor
 class ManageModelsViewModel: ObservableObject {
-    @Published var tags: tagsParent?
+    @Published var tags: TagsParent?
     @Published var errorModel: ErrorModel = ErrorModel(showError: false, errorTitle: "", errorMessage: "")
     @Published var modelName: String = ""
     @Published var toDuplicate: String = ""

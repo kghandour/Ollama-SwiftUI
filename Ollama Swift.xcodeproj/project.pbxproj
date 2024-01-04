@@ -14,6 +14,10 @@
 		154E32212B46668A00FD62D5 /* ChatScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154E32202B46668A00FD62D5 /* ChatScrollView.swift */; };
 		154E32232B46677100FD62D5 /* ChatInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154E32222B46677100FD62D5 /* ChatInputView.swift */; };
 		154E32252B46681A00FD62D5 /* ChatToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154E32242B46681A00FD62D5 /* ChatToolbar.swift */; };
+		154E32292B466EC100FD62D5 /* ModelsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154E32282B466EC100FD62D5 /* ModelsListView.swift */; };
+		154E322D2B466FD000FD62D5 /* ModelsActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154E322C2B466FD000FD62D5 /* ModelsActionsView.swift */; };
+		154E322F2B466FFC00FD62D5 /* DownloadProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154E322E2B466FFC00FD62D5 /* DownloadProgressView.swift */; };
+		154E32312B4670DE00FD62D5 /* ModelToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154E32302B4670DE00FD62D5 /* ModelToolbar.swift */; };
 		320EE92C2ADAE7DE00758FB9 /* ManageModelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 320EE92B2ADAE7DE00758FB9 /* ManageModelsView.swift */; };
 		320EE92E2ADAED4F00758FB9 /* ManageModelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 320EE92D2ADAED4F00758FB9 /* ManageModelService.swift */; };
 		32405D8B2ADB181A00EAAC10 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 32405D8A2ADB181A00EAAC10 /* Localizable.xcstrings */; };
@@ -67,6 +71,10 @@
 		154E32202B46668A00FD62D5 /* ChatScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatScrollView.swift; sourceTree = "<group>"; };
 		154E32222B46677100FD62D5 /* ChatInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInputView.swift; sourceTree = "<group>"; };
 		154E32242B46681A00FD62D5 /* ChatToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatToolbar.swift; sourceTree = "<group>"; };
+		154E32282B466EC100FD62D5 /* ModelsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelsListView.swift; sourceTree = "<group>"; };
+		154E322C2B466FD000FD62D5 /* ModelsActionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelsActionsView.swift; sourceTree = "<group>"; };
+		154E322E2B466FFC00FD62D5 /* DownloadProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadProgressView.swift; sourceTree = "<group>"; };
+		154E32302B4670DE00FD62D5 /* ModelToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelToolbar.swift; sourceTree = "<group>"; };
 		320EE92B2ADAE7DE00758FB9 /* ManageModelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageModelsView.swift; sourceTree = "<group>"; };
 		320EE92D2ADAED4F00758FB9 /* ManageModelService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageModelService.swift; sourceTree = "<group>"; };
 		32405D8A2ADB181A00EAAC10 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
@@ -136,12 +144,32 @@
 		154E321F2B46646E00FD62D5 /* Composants */ = {
 			isa = PBXGroup;
 			children = (
+				154E32272B466EAC00FD62D5 /* Model */,
+				154E32262B466D1500FD62D5 /* Chat */,
+			);
+			path = Composants;
+			sourceTree = "<group>";
+		};
+		154E32262B466D1500FD62D5 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
 				32D730C62AD3F77100DF8044 /* ChatBubble.swift */,
 				154E32202B46668A00FD62D5 /* ChatScrollView.swift */,
 				154E32222B46677100FD62D5 /* ChatInputView.swift */,
 				154E32242B46681A00FD62D5 /* ChatToolbar.swift */,
 			);
-			path = Composants;
+			path = Chat;
+			sourceTree = "<group>";
+		};
+		154E32272B466EAC00FD62D5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				154E32282B466EC100FD62D5 /* ModelsListView.swift */,
+				154E322C2B466FD000FD62D5 /* ModelsActionsView.swift */,
+				154E322E2B466FFC00FD62D5 /* DownloadProgressView.swift */,
+				154E32302B4670DE00FD62D5 /* ModelToolbar.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		327B903A2AD17EA300A94F10 = {
@@ -398,15 +426,19 @@
 				32CDC0322AD2DF4200D4DA6B /* ChatService.swift in Sources */,
 				32D730C72AD3F77100DF8044 /* ChatBubble.swift in Sources */,
 				154E321E2B4654E400FD62D5 /* NetworkManager.swift in Sources */,
+				154E32292B466EC100FD62D5 /* ModelsListView.swift in Sources */,
 				32CDC0212AD2B50600D4DA6B /* MenuItem.swift in Sources */,
 				320EE92E2ADAED4F00758FB9 /* ManageModelService.swift in Sources */,
 				32CDC02C2AD2DE7600D4DA6B /* MenuView.swift in Sources */,
+				154E32312B4670DE00FD62D5 /* ModelToolbar.swift in Sources */,
 				32CDC0302AD2DED600D4DA6B /* ChatView.swift in Sources */,
 				32CDC02E2AD2DEA500D4DA6B /* JSONParser.swift in Sources */,
 				32CDC0232AD2B57400D4DA6B /* Prompt.swift in Sources */,
+				154E322F2B466FFC00FD62D5 /* DownloadProgressView.swift in Sources */,
 				154E32182B46490200FD62D5 /* ManageModelsViewModel.swift in Sources */,
 				154E321A2B464E3000FD62D5 /* DefaultSettings.swift in Sources */,
 				3271CD112ADAC94500B14DD2 /* ErrorMessages.swift in Sources */,
+				154E322D2B466FD000FD62D5 /* ModelsActionsView.swift in Sources */,
 				320EE92C2ADAE7DE00758FB9 /* ManageModelsView.swift in Sources */,
 				3271CD132ADAD23400B14DD2 /* SettingsView.swift in Sources */,
 				32CDC02A2AD2DD9200D4DA6B /* Menu.swift in Sources */,

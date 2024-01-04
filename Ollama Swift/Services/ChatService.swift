@@ -9,7 +9,7 @@ import Foundation
 
 protocol ChatServiceProtocol {
     func sendPrompt(host: String, prompt: PromptModel) async throws -> [ResponseModel]
-    func getLocalModels(host: String) async throws -> tagsParent
+    func getLocalModels(host: String) async throws -> TagsParent
 }
 
 class ChatService: ChatServiceProtocol {
@@ -22,8 +22,8 @@ class ChatService: ChatServiceProtocol {
         return try await NetworkManager.performRequest(to: endpoint, with: encodedData, expecting: [ResponseModel].self)
     }
 
-    func getLocalModels(host: String) async throws -> tagsParent {
+    func getLocalModels(host: String) async throws -> TagsParent {
         let endpoint = host + "/api/tags"
-        return try await NetworkManager.performRequest(to: endpoint, expecting: tagsParent.self)
+        return try await NetworkManager.performRequest(to: endpoint, expecting: TagsParent.self)
     }
 }

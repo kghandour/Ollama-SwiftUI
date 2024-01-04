@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct tagsParent: Decodable, Hashable {
-    let models: [tagsModel]
+struct TagsParent: Decodable, Hashable {
+    let models: [TagsModel]
 }
 
-struct tagsModel: Decodable, Hashable {
+struct TagsModel: Decodable, Hashable {
     let name: String
     let modifiedAt: String?
     let size: Double
