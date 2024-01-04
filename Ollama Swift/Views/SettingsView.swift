@@ -24,8 +24,8 @@ struct SettingsView: View {
 }
 
 struct GeneralSettingsView: View {
-    @AppStorage("host") private var host = "http://127.0.0.1"
-    @AppStorage("port") private var port = "11434"
+    @AppStorage("host") var host = DefaultSettings.host
+    @AppStorage("port") var port = DefaultSettings.port
     
     var body: some View {
         Form {

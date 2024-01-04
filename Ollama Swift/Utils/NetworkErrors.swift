@@ -13,4 +13,5 @@ enum NetError: Error {
     case invalidData(error: Error?)
     case unreachable(error: Error?)
     case general(error: Error?)
+    case serverError(statusCode: Int)
 }
