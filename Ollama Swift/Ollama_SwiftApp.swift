@@ -9,9 +9,23 @@ import SwiftUI
 
 @main
 struct Ollama_SwiftApp: App {
+    
+    let chatService = ChatService()
+    let manageModelService = ManageModelService()
+
+    var manageModelsViewModel: ManageModelsViewModel
+    var chatViewModel: ChatViewModel
+
+    init() {
+        manageModelsViewModel = ManageModelsViewModel(chatService: chatService, manageModelService: manageModelService)
+        chatViewModel = ChatViewModel(chatService: chatService)
+    }
+        
     var body: some Scene {
         let mainWindow = WindowGroup {
             ContentView()
+                .environmentObject(manageModelsViewModel)
+                .environmentObject(chatViewModel)
           }
           #if os(macOS)      
           Settings {
@@ -37,8 +51,5 @@ struct Ollama_SwiftApp: App {
           #else
           mainWindow
           #endif
-//        WindowGroup {
-//            ContentView()
-//        }
     }
 }

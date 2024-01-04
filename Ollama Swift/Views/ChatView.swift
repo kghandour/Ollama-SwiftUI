@@ -11,17 +11,9 @@ import SwiftUI
 struct ChatView: View {
     let fontSize: CGFloat = 15
     
-    @State private var prompt: PromptModel = .init(prompt: "", model: "", system: "")
-    @State private var sentPrompt: [String] = []
-    @State private var receivedResponse: [String] = []
-    @State private var tags: tagsParent?
-    @State private var disabledButton: Bool = true
-    @State private var disabledEditor: Bool = false
-    @State private var showingErrorPopover: Bool = false
-    @State private var errorModel: ErrorModel = .init(showError: false, errorTitle: "", errorMessage: "")
+    @EnvironmentObject var viewModel: ChatViewModel
     @FocusState private var promptFieldIsFocused: Bool
-    @AppStorage("host") private var host = "http://127.0.0.1"
-    @AppStorage("port") private var port = "11434"
+    @State private var showingErrorPopover: Bool = false
     
     var body: some View {
         VStack(spacing: 0)
@@ -30,7 +22,7 @@ struct ChatView: View {
                 Text("This is the start of your chat")
                     .foregroundStyle(.secondary)
                     .padding()
-                ForEach(Array(self.sentPrompt.enumerated()), id: \.offset) { idx, sent in
+                ForEach(Array(self.viewModel.sentPrompt.enumerated()), id: \.offset) { idx, sent in
                     ChatBubble(direction: .right) {
                         Markdown {
                             .init(sent.trimmingCharacters(in: .whitespacesAndNewlines))
@@ -45,8 +37,8 @@ struct ChatView: View {
                     }
                     ChatBubble(direction: .left) {
                         Markdown {
-                            .init(self.receivedResponse.indices.contains(idx) ?
-                                  self.receivedResponse[idx].trimmingCharacters(in: .whitespacesAndNewlines) :
+                            .init(self.viewModel.receivedResponse.indices.contains(idx) ?
+                                  self.viewModel.receivedResponse[idx].trimmingCharacters(in: .whitespacesAndNewlines) :
                                     "...")
                         }
                         .markdownTextStyle(\.code) {
@@ -71,33 +63,33 @@ struct ChatView: View {
             }
             .defaultScrollAnchor(.bottom)
             HStack(alignment: .bottom){
-                TextField("Enter prompt...", text: self.disabledEditor ? .constant(self.prompt.prompt) : self.$prompt.prompt, axis: .vertical)
+                TextField("Enter prompt...", text: self.viewModel.disabledEditor ? .constant(self.viewModel.prompt.prompt) : self.$viewModel.prompt.prompt, axis: .vertical)
                     .lineLimit(5)
-                    .onChange(of: self.prompt.prompt) {
-                        if self.prompt.prompt.count > 0 {
-                            self.disabledButton = false
+                    .onChange(of: self.viewModel.prompt.prompt) {
+                        if self.viewModel.prompt.prompt.count > 0 {
+                            self.viewModel.disabledButton = false
                         } else {
-                            self.disabledButton = true
+                            self.viewModel.disabledButton = true
                         }
                     }
                     .focused(self.$promptFieldIsFocused)
-                    .disabled(self.disabledEditor)
+                    .disabled(self.viewModel.disabledEditor)
                     .onSubmit {
-                        !self.disabledButton ? self.send() : nil
+                        !self.viewModel.disabledButton ? self.viewModel.send() : nil
                     }
                     .textFieldStyle(.roundedBorder)
                 
                 Button {
-                    self.send()
+                    self.viewModel.send()
                 } label: {
                     Image(systemName: "paperplane")
                         .frame(width: 20, height: 20, alignment: .center)
                         .foregroundStyle(.blue)
                 }
-                .disabled(self.disabledButton)
+                .disabled(self.viewModel.disabledButton)
                 
                 Button {
-                    self.resetChat()
+                    self.viewModel.resetChat()
                 } label: {
                     Image(systemName: "trash")
                         .frame(width: 20, height: 20, alignment: .center)
@@ -109,13 +101,13 @@ struct ChatView: View {
         .frame(minWidth: 400, idealWidth: 700, minHeight: 600, idealHeight: 800)
         .background(Color(NSColor.controlBackgroundColor))
         .task {
-            self.getTags()
+            self.viewModel.getTags()
         }
         .toolbar {
             ToolbarItemGroup(placement: .automatic){
                 HStack {
-                    Picker("Model:", selection: self.$prompt.model) {
-                        ForEach(self.tags?.models ?? [], id: \.self) { model in
+                    Picker("Model:", selection: self.$viewModel.prompt.model) {
+                        ForEach(self.viewModel.tags?.models ?? [], id: \.self) { model in
                             Text(model.name).tag(model.name)
                         }
                     }
@@ -125,7 +117,7 @@ struct ChatView: View {
                         Label("Manage Models", systemImage: "gearshape")
                     }
                 }
-                if self.errorModel.showError {
+                if self.viewModel.errorModel.showError {
                     Button {
                         self.showingErrorPopover.toggle()
                     } label: {
@@ -134,10 +126,10 @@ struct ChatView: View {
                     }
                     .popover(isPresented: self.$showingErrorPopover) {
                         VStack(alignment: .leading) {
-                            Text(self.errorModel.errorTitle)
+                            Text(self.viewModel.errorModel.errorTitle)
                                 .font(.title2)
                                 .textSelection(.enabled)
-                            Text(self.errorModel.errorMessage)
+                            Text(self.viewModel.errorModel.errorMessage)
                                 .textSelection(.enabled)
                         }
                         .padding()
@@ -149,7 +141,7 @@ struct ChatView: View {
                         .foregroundStyle(.green)
                 }
                 Button {
-                    self.getTags()
+                    self.viewModel.getTags()
                 } label: {
                     Image(systemName: "arrow.clockwise")
                         .frame(width: 20, height: 20, alignment: .center)
@@ -157,105 +149,9 @@ struct ChatView: View {
             }
         }
     }
-    
-    func getTags() {
-        Task {
-            do {
-                self.disabledButton = false
-                self.disabledEditor = false
-                self.errorModel.showError = false
-                self.tags = try await getLocalModels(host: "\(self.host):\(self.port)")
-                self.prompt.model = self.tags?.models[0].name ?? ""
-            } catch let NetError.invalidURL(error) {
-                errorModel = invalidURLError(error: error)
-            } catch let NetError.invalidData(error) {
-                errorModel = invalidTagsDataError(error: error)
-            } catch let NetError.invalidResponse(error) {
-                errorModel = invalidResponseError(error: error)
-            } catch let NetError.unreachable(error) {
-                errorModel = unreachableError(error: error)
-            } catch {
-                self.errorModel = genericError(error: error)
-            }
-        }
-    }
-    
-    func resetChat() {
-        self.sentPrompt = []
-        self.receivedResponse = []
-    }
-    
-    func send() {
-        Task {
-            do {
-                self.errorModel.showError = false
-                self.disabledEditor = true
-                
-                self.sentPrompt.append(self.prompt.prompt)
-                
-                var chatHistory = ChatModel(model: self.prompt.model, messages: [])
-                
-                for i in 0 ..< self.sentPrompt.count {
-                    chatHistory.messages.append(ChatMessage(role: "user", content: self.sentPrompt[i]))
-                    if i < self.receivedResponse.count {
-                        chatHistory.messages.append(ChatMessage(role: "assistant", content: self.receivedResponse[i]))
-                    }
-                }
-                
-                self.receivedResponse.append("")
-                
-                print("Sending request")
-                let endpoint = "\(host):\(port)" + "/api/chat"
-                
-                guard let url = URL(string: endpoint) else {
-                    throw NetError.invalidURL(error: nil)
-                }
-                
-                var request = URLRequest(url: url)
-                request.httpMethod = "POST"
-                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-                
-                let encoder = JSONEncoder()
-                encoder.keyEncodingStrategy = .convertToSnakeCase
-                request.httpBody = try encoder.encode(chatHistory)
-                
-                let data: URLSession.AsyncBytes
-                let response: URLResponse
-                
-                do {
-                    (data, response) = try await URLSession.shared.bytes(for: request)
-                } catch {
-                    throw NetError.unreachable(error: error)
-                }
-                
-                guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                    throw NetError.invalidResponse(error: nil)
-                }
-                
-                for try await line in data.lines {
-                    let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    let data = line.data(using: .utf8)!
-                    let decoded = try decoder.decode(ResponseModel.self, from: data)
-                    self.receivedResponse[self.receivedResponse.count - 1].append(decoded.message.content)
-                }
-                self.disabledEditor = false
-                self.prompt.prompt = ""
-            } catch let NetError.invalidURL(error) {
-                errorModel = invalidURLError(error: error)
-            } catch let NetError.invalidData(error) {
-                errorModel = invalidDataError(error: error)
-            } catch let NetError.invalidResponse(error) {
-                errorModel = invalidResponseError(error: error)
-            } catch let NetError.unreachable(error) {
-                errorModel = unreachableError(error: error)
-            } catch {
-                self.errorModel = genericError(error: error)
-            }
-        }
-    }
 }
 
 #Preview {
     ChatView()
+        .environmentObject(ChatViewModel(chatService: ChatService()))
 }

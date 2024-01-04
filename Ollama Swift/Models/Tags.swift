@@ -13,7 +13,7 @@ struct tagsParent: Decodable, Hashable {
 
 struct tagsModel: Decodable, Hashable {
     let name: String
-    let modifiedAt: String
+    let modifiedAt: String?
     let size: Double
     let digest: String
 }
