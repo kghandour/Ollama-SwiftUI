@@ -1,4 +1,13 @@
 # Changelog
+## Version 1.1.1 (2023-01-12)
+1.1.1 brings some bug fixes and quality of life adjustments
+### Fixed
+1. Fixes #26 Opening the application without having any models downloaded does not result in a crash anymore. 
+
+### Improved
+1. After downloading a model it forces a refresh.
+2. Better errors visualization especially in the manage models view.
+
 ## Version 1.1 (2023-12-30)
 Happy New Year! 
 New version of Ollama Swift is here. Major contribution by @HiRoS-neko

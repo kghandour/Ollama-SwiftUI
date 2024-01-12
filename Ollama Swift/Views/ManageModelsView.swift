@@ -14,6 +14,7 @@ struct ManageModelsView: View {
     @State private var toDuplicate: String = ""
     @State private var newName: String = ""
     @State private var showProgress: Bool = false
+    @State private var showingErrorPopover: Bool = false
     @State private var totalSize: Double = 0
     @State private var completedSoFar: Double = 0
     
@@ -24,6 +25,13 @@ struct ManageModelsView: View {
         VStack(alignment: .leading){
             Text("Local Models:")
                 .font(.headline)
+            if(tags?.models.count == 0){
+                HStack{
+                    Label("Error", systemImage: "exclamationmark.triangle")
+                        .foregroundStyle(.red)
+                    Text("No models downloaded locally. Add a model by typing the name in the field at the bottom of the page.")
+                }
+            }
             List(tags?.models ?? [], id: \.self){ model in
                 HStack{
                     VStack(alignment: .leading){
@@ -61,6 +69,7 @@ struct ManageModelsView: View {
             Spacer()
             HStack{
                 Text("Add Model:")
+                    .font(.headline)
                 TextField("Add model:", text: $modelName)
                     .textFieldStyle(.roundedBorder)
                 Button{
@@ -92,18 +101,22 @@ struct ManageModelsView: View {
         .toolbar{
             HStack{
                 if(errorModel.showError){
-                    VStack (alignment: .leading) {
-                        Text(errorModel.errorTitle)
-                            .textSelection(.enabled)
-                            .font(.title2)
-                        Text(errorModel.errorMessage)
-                            .textSelection(.enabled)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(5)
-                    .background(.red)
-                    .cornerRadius(10)
-                    .foregroundStyle(.white)
+                        Button {
+                            self.showingErrorPopover.toggle()
+                        } label: {
+                            Label("Error", systemImage: "exclamationmark.triangle")
+                                .foregroundStyle(.red)
+                        }
+                        .popover(isPresented: self.$showingErrorPopover) {
+                            VStack(alignment: .leading) {
+                                Text(self.errorModel.errorTitle)
+                                    .font(.title2)
+                                    .textSelection(.enabled)
+                                Text(self.errorModel.errorMessage)
+                                    .textSelection(.enabled)
+                            }
+                            .padding()
+                        }
                 }else{
                     Text("Server:")
                     Label("Connected", systemImage: "circle.fill")
@@ -123,7 +136,17 @@ struct ManageModelsView: View {
             do{
                 tags = try await getLocalModels(host: "\(host):\(port)")
                 errorModel.showError = false
-                toDuplicate = tags?.models[0].name ?? ""
+                if(self.tags != nil){
+                    if(self.tags!.models.count > 0){
+                        toDuplicate = self.tags!.models[0].name
+                    }else{
+                        toDuplicate = ""
+                        errorModel = noModelsError(error: nil)
+                    }
+                }else{
+                    toDuplicate = ""
+                    errorModel = noModelsError(error: nil)
+                }
             } catch NetError.invalidURL (let error){
                 errorModel = invalidURLError(error: error)
             } catch NetError.invalidData (let error){
@@ -177,7 +200,7 @@ struct ManageModelsView: View {
                 }
                 
                 showProgress = false
-                tags = try await getLocalModels(host: "\(host):\(port)")
+                getTags()
             } catch NetError.invalidURL (let error){
                 errorModel = invalidURLError(error: error)
             } catch NetError.invalidData (let error){
@@ -196,7 +219,7 @@ struct ManageModelsView: View {
         Task{
             do{
                 try await deleteModel(host: "\(host):\(port)", name: name)
-                tags = try await getLocalModels(host: "\(host):\(port)")
+                getTags()
             } catch NetError.invalidURL (let error){
                 errorModel = invalidURLError(error: error)
             } catch NetError.invalidData (let error){
@@ -215,7 +238,7 @@ struct ManageModelsView: View {
         Task{
             do{
                 try await copyModel(host: "\(host):\(port)", source: source, destination: destination)
-                tags = try await getLocalModels(host: "\(host):\(port)")
+                getTags()
             } catch NetError.invalidURL (let error){
                 errorModel = invalidURLError(error: error)
             } catch NetError.invalidData (let error){

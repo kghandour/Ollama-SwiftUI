@@ -30,3 +30,7 @@ func unreachableError(error: Error?) -> ErrorModel{
 func genericError(error: Error?) -> ErrorModel{
     return ErrorModel(showError: true, errorTitle: "An error has occured", errorMessage: "If restarting ollama does not fix it, please report the bug. \(String(describing: error?.localizedDescription)))")
 }
+
+func noModelsError(error: Error?) -> ErrorModel{
+    return ErrorModel(showError: true, errorTitle: "No models found", errorMessage: "Click the gear icon and download a model")
+}
