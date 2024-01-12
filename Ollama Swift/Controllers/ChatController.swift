@@ -8,7 +8,7 @@
 import Foundation
 
 
-func sendPrompt(host:String, prompt: PromptModel) async throws -> [ResponseModel]{
+func sendPrompt(host:String, prompt: PromptModel, timeoutRequest: String, timeoutResource: String) async throws -> [ResponseModel]{
     print("Sending request")
     let endpoint = host + "/api/generate"
     
@@ -28,7 +28,10 @@ func sendPrompt(host:String, prompt: PromptModel) async throws -> [ResponseModel
     let response: URLResponse
     
     do{
-        (data, response) = try await URLSession.shared.data(for: request)
+        let sessionConfig = URLSessionConfiguration.default
+        sessionConfig.timeoutIntervalForRequest = Double(timeoutRequest) ?? 60
+        sessionConfig.timeoutIntervalForResource = Double(timeoutResource) ?? 604800
+        (data, response) = try await URLSession(configuration: sessionConfig).data(for: request)
     }catch{
         throw NetError.unreachable(error: error)
     }
@@ -48,7 +51,7 @@ func sendPrompt(host:String, prompt: PromptModel) async throws -> [ResponseModel
     }
 }
 
-func getLocalModels(host: String) async throws -> tagsParent{
+func getLocalModels(host: String, timeoutRequest: String, timeoutResource: String) async throws -> tagsParent{
     let endpoint = host + "/api/tags"
     
     guard let url = URL(string: endpoint) else {
@@ -59,7 +62,10 @@ func getLocalModels(host: String) async throws -> tagsParent{
     let response: URLResponse
     
     do{
-        (data, response) = try await URLSession.shared.data(from: url)
+        let sessionConfig = URLSessionConfiguration.default
+        sessionConfig.timeoutIntervalForRequest = Double(timeoutRequest) ?? 60
+        sessionConfig.timeoutIntervalForResource = Double(timeoutResource) ?? 604800
+        (data, response) = try await URLSession(configuration: sessionConfig).data(from: url)
     }catch{
         throw NetError.unreachable(error: error)
     }

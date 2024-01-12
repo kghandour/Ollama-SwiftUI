@@ -20,6 +20,8 @@ struct ManageModelsView: View {
     
     @AppStorage("host") private var host = "http://127.0.0.1"
     @AppStorage("port") private var port = "11434"
+    @AppStorage("timeoutRequest") private var timeoutRequest = "60"
+    @AppStorage("timeoutResource") private var timeoutResource = "604800"
 
     var body: some View {
         VStack(alignment: .leading){
@@ -134,7 +136,7 @@ struct ManageModelsView: View {
     func getTags(){
         Task{
             do{
-                tags = try await getLocalModels(host: "\(host):\(port)")
+                tags = try await getLocalModels(host: "\(self.host):\(self.port)", timeoutRequest: self.timeoutRequest, timeoutResource: self.timeoutResource)
                 errorModel.showError = false
                 if(self.tags != nil){
                     if(self.tags!.models.count > 0){

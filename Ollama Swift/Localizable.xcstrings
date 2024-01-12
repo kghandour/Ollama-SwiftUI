@@ -143,6 +143,12 @@
     "Port:" : {
 
     },
+    "Request Timeout (in sec. Default 60):" : {
+
+    },
+    "Resources Timeout (in sec. Default: 604800):" : {
+
+    },
     "Server Status: " : {
       "extractionState" : "stale",
       "localizations" : {
