@@ -165,15 +165,25 @@ struct ChatView: View {
                 self.disabledEditor = false
                 self.errorModel.showError = false
                 self.tags = try await getLocalModels(host: "\(self.host):\(self.port)")
-                self.prompt.model = self.tags?.models[0].name ?? ""
+                if(self.tags != nil){
+                    if(self.tags!.models.count > 0){
+                        self.prompt.model = self.tags!.models[0].name
+                    }else{
+                        self.prompt.model = ""
+                        self.errorModel = noModelsError(error: nil)
+                    }
+                }else{
+                    self.prompt.model = ""
+                    self.errorModel = noModelsError(error: nil)
+                }
             } catch let NetError.invalidURL(error) {
-                errorModel = invalidURLError(error: error)
+                self.errorModel = invalidURLError(error: error)
             } catch let NetError.invalidData(error) {
-                errorModel = invalidTagsDataError(error: error)
+                self.errorModel = invalidTagsDataError(error: error)
             } catch let NetError.invalidResponse(error) {
-                errorModel = invalidResponseError(error: error)
+                self.errorModel = invalidResponseError(error: error)
             } catch let NetError.unreachable(error) {
-                errorModel = unreachableError(error: error)
+                self.errorModel = unreachableError(error: error)
             } catch {
                 self.errorModel = genericError(error: error)
             }

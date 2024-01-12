@@ -126,6 +126,9 @@
     "New Tab" : {
 
     },
+    "No models downloaded locally. Add a model by typing the name in the field at the bottom of the page." : {
+
+    },
     "Online" : {
       "extractionState" : "stale",
       "localizations" : {
