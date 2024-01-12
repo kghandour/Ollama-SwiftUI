@@ -1,6 +1,11 @@
 # Changelog
 ## Version 1.1.1 (2023-01-12)
 1.1.1 brings some bug fixes and quality of life adjustments
+### New
+1. Added Request timeout option in the settings. Some local environments might be too slow that the default 60 seconds
+timeout is not enough. Now you can adjust it in the settings.
+2. Added Resource timeout option in the settings.
+
 ### Fixed
 1. Fixes #26 Opening the application without having any models downloaded does not result in a crash anymore. 
 

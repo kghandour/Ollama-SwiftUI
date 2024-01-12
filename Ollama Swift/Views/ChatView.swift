@@ -22,6 +22,8 @@ struct ChatView: View {
     @FocusState private var promptFieldIsFocused: Bool
     @AppStorage("host") private var host = "http://127.0.0.1"
     @AppStorage("port") private var port = "11434"
+    @AppStorage("timeoutRequest") private var timeoutRequest = "60"
+    @AppStorage("timeoutResource") private var timeoutResource = "604800"
     
     var body: some View {
         VStack(spacing: 0)
@@ -164,7 +166,7 @@ struct ChatView: View {
                 self.disabledButton = false
                 self.disabledEditor = false
                 self.errorModel.showError = false
-                self.tags = try await getLocalModels(host: "\(self.host):\(self.port)")
+                self.tags = try await getLocalModels(host: "\(self.host):\(self.port)", timeoutRequest: self.timeoutRequest, timeoutResource: self.timeoutResource)
                 if(self.tags != nil){
                     if(self.tags!.models.count > 0){
                         self.prompt.model = self.tags!.models[0].name
@@ -233,7 +235,10 @@ struct ChatView: View {
                 let response: URLResponse
                 
                 do {
-                    (data, response) = try await URLSession.shared.bytes(for: request)
+                    let sessionConfig = URLSessionConfiguration.default
+                    sessionConfig.timeoutIntervalForRequest = Double(timeoutRequest) ?? 60
+                    sessionConfig.timeoutIntervalForResource = Double(timeoutResource) ?? 604800
+                    (data, response) = try await URLSession(configuration: sessionConfig).bytes(for: request)
                 } catch {
                     throw NetError.unreachable(error: error)
                 }

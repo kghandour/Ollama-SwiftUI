@@ -24,7 +24,7 @@ func invalidResponseError(error: Error?) -> ErrorModel{
 }
 
 func unreachableError(error: Error?) -> ErrorModel{
-    return ErrorModel(showError: true, errorTitle: "Server is unreachable", errorMessage: "Make sure Ollama ( https://ollama.ai/ ) is installed and running. If a different IP/PORT is used other than the default, change it in the app settings. \(String(describing: error?.localizedDescription)))")
+    return ErrorModel(showError: true, errorTitle: "Server is unreachable - Timeout", errorMessage: "Make sure Ollama ( https://ollama.ai/ ) is installed and running. If a different IP/PORT is used other than the default, change it in the app settings. Adjust the timeout value in the settings. \(String(describing: error?.localizedDescription)))")
 }
 
 func genericError(error: Error?) -> ErrorModel{
