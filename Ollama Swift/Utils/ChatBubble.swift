@@ -3,7 +3,6 @@
 //  Ollama Swift
 //
 //  Created by Karim ElGhandour on 09.10.23.
-//  Used from: https://gist.github.com/prafullakumar/aa7af213d9e7530ee82aa6e8c92505b4
 
 import SwiftUI
 
