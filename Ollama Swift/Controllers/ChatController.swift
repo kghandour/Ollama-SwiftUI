@@ -81,7 +81,7 @@ class ChatController: ObservableObject{
                 self.receivedResponse.append("")
                 
                 print("Sending request")
-                let endpoint = "\(host):\(port)" + "/api/chat"
+                let endpoint = "\(self.host):\(self.port)" + "/api/chat"
                 
                 guard let url = URL(string: endpoint) else {
                     throw NetError.invalidURL(error: nil)
@@ -100,8 +100,8 @@ class ChatController: ObservableObject{
                 
                 do {
                     let sessionConfig = URLSessionConfiguration.default
-                    sessionConfig.timeoutIntervalForRequest = Double(timeoutRequest) ?? 60
-                    sessionConfig.timeoutIntervalForResource = Double(timeoutResource) ?? 604800
+                    sessionConfig.timeoutIntervalForRequest = Double(self.timeoutRequest) ?? 60
+                    sessionConfig.timeoutIntervalForResource = Double(self.timeoutResource) ?? 604800
                     (data, response) = try await URLSession(configuration: sessionConfig).bytes(for: request)
                 } catch {
                     throw NetError.unreachable(error: error)
@@ -136,8 +136,8 @@ class ChatController: ObservableObject{
     }
     
     func getLocalModels() async throws -> tagsParent{
-        let endpoint = host + "/api/tags"
-        
+        let endpoint = "\(self.host):\(self.port)/api/tags"
+
         guard let url = URL(string: endpoint) else {
             throw NetError.invalidURL(error: nil)
         }
@@ -147,8 +147,8 @@ class ChatController: ObservableObject{
         
         do{
             let sessionConfig = URLSessionConfiguration.default
-            sessionConfig.timeoutIntervalForRequest = Double(timeoutRequest) ?? 60
-            sessionConfig.timeoutIntervalForResource = Double(timeoutResource) ?? 604800
+            sessionConfig.timeoutIntervalForRequest = Double(self.timeoutRequest) ?? 60
+            sessionConfig.timeoutIntervalForResource = Double(self.timeoutResource) ?? 604800
             (data, response) = try await URLSession(configuration: sessionConfig).data(from: url)
         }catch{
             throw NetError.unreachable(error: error)

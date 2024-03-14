@@ -30,7 +30,7 @@ struct ManageModelsView: View {
                     Spacer()
                     
                     Button{
-                        manageModelsController.removeModel()
+                        manageModelsController.removeModel(name: model.name)
                     }label: {
                         Image(systemName: "trash")
                             .frame(width: 20, height: 20, alignment: .center)

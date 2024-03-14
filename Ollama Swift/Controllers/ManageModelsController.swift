@@ -109,10 +109,10 @@ class ManageModelsController: ObservableObject{
         }
     }
     
-    func removeModel(){
+    func removeModel(name: String){
         Task{
             do{
-                try await deleteModel(host: "\(host):\(port)", name: modelName)
+                try await deleteModel(name: name)
                 getTags()
             } catch NetError.invalidURL (let error){
                 errorModel = invalidURLError(error: error)
@@ -148,7 +148,7 @@ class ManageModelsController: ObservableObject{
     }
     
     func getLocalModels() async throws -> tagsParent{
-        let endpoint = host + "/api/tags"
+        let endpoint = "\(self.host):\(self.port)/api/tags"
         
         guard let url = URL(string: endpoint) else {
             throw NetError.invalidURL(error: nil)
@@ -167,6 +167,7 @@ class ManageModelsController: ObservableObject{
         }
         
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            print("error")
             throw NetError.invalidResponse(error: nil)
         }
         do {
@@ -179,9 +180,8 @@ class ManageModelsController: ObservableObject{
         }
     }
     
-    func deleteModel(host:String, name: String) async throws{
-        print("Sending request")
-        let endpoint = host + "/api/delete"
+    func deleteModel(name: String) async throws{
+        let endpoint = "\(host):\(port)" + "/api/delete"
         
         guard let url = URL(string: endpoint) else {
             throw NetError.invalidURL(error: nil)
@@ -210,7 +210,7 @@ class ManageModelsController: ObservableObject{
 
     func copyModel() async throws {
         print("Sending request")
-        let endpoint = host + "/api/copy"
+        let endpoint = "\(host):\(port)" + "/api/copy"
         
         guard let url = URL(string: endpoint) else {
             throw NetError.invalidURL(error: nil)
