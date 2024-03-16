@@ -8,33 +8,20 @@
 import SwiftUI
 
 struct ManageModelsView: View {
-    @State private var tags: tagsParent?
-    @State private var errorModel: ErrorModel = ErrorModel(showError: false, errorTitle: "", errorMessage: "")
-    @State private var modelName: String = ""
-    @State private var toDuplicate: String = ""
-    @State private var newName: String = ""
-    @State private var showProgress: Bool = false
-    @State private var showingErrorPopover: Bool = false
-    @State private var totalSize: Double = 0
-    @State private var completedSoFar: Double = 0
-    
-    @AppStorage("host") private var host = "http://127.0.0.1"
-    @AppStorage("port") private var port = "11434"
-    @AppStorage("timeoutRequest") private var timeoutRequest = "60"
-    @AppStorage("timeoutResource") private var timeoutResource = "604800"
+    @StateObject var manageModelsController = ManageModelsController()
 
     var body: some View {
         VStack(alignment: .leading){
             Text("Local Models:")
                 .font(.headline)
-            if(tags?.models.count == 0){
+            if(manageModelsController.tags?.models.count == 0){
                 HStack{
                     Label("Error", systemImage: "exclamationmark.triangle")
                         .foregroundStyle(.red)
                     Text("No models downloaded locally. Add a model by typing the name in the field at the bottom of the page.")
                 }
             }
-            List(tags?.models ?? [], id: \.self){ model in
+            List(manageModelsController.tags?.models ?? [], id: \.self){ model in
                 HStack{
                     VStack(alignment: .leading){
                         Text(model.name)
@@ -43,7 +30,7 @@ struct ManageModelsView: View {
                     Spacer()
                     
                     Button{
-                        removeModel(name: model.name)
+                        manageModelsController.removeModel(name: model.name)
                     }label: {
                         Image(systemName: "trash")
                             .frame(width: 20, height: 20, alignment: .center)
@@ -54,15 +41,15 @@ struct ManageModelsView: View {
             HStack{
                 Text("Duplicate Model:")
                         .font(.headline)
-                Picker("Duplicate Model:", selection: $toDuplicate) {
-                    ForEach(tags?.models ?? [], id: \.self) {model in
+                Picker("Duplicate Model:", selection: $manageModelsController.toDuplicate) {
+                    ForEach(manageModelsController.tags?.models ?? [], id: \.self) {model in
                         Text(model.name).tag(model.name)
                     }
                 }
-                TextField("New Name", text: $newName)
+                TextField("New Name", text: $manageModelsController.newName)
                     .textFieldStyle(.roundedBorder)
                 Button{
-                    duplicateModel(source: toDuplicate, destination: newName)
+                    manageModelsController.duplicateModel()
                 }label: {
                     Image(systemName: "doc.on.doc")
                         .frame(width: 20, height: 20, alignment: .center)
@@ -72,20 +59,20 @@ struct ManageModelsView: View {
             HStack{
                 Text("Add Model:")
                     .font(.headline)
-                TextField("Add model:", text: $modelName)
+                TextField("Add model:", text: $manageModelsController.modelName)
                     .textFieldStyle(.roundedBorder)
                 Button{
-                    downloadModel(name: modelName)
+                    manageModelsController.downloadModel()
                 }label: {
                     Image(systemName: "arrowshape.down.fill")
                         .frame(width: 20, height: 20, alignment: .center)
                 }
             }
-            if(showProgress){
+            if(manageModelsController.showProgress){
                 HStack{
-                    Text("Downloading \(modelName)")
-                    ProgressView(value: completedSoFar, total: totalSize)
-                    Text("\(Int(completedSoFar / 1024 / 1024 ))/ \(Int(totalSize / 1024 / 1024)) MB")
+                    Text("Downloading \(manageModelsController.modelName)")
+                    ProgressView(value: manageModelsController.completedSoFar, total: manageModelsController.totalSize)
+                    Text("\(Int(manageModelsController.completedSoFar / 1024 / 1024 ))/ \(Int(manageModelsController.totalSize / 1024 / 1024)) MB")
                 }
             }
             VStack(alignment: .leading){
@@ -98,23 +85,23 @@ struct ManageModelsView: View {
         .padding()
         .frame(minWidth: 400, idealWidth: 500, minHeight: 600, idealHeight: 800)
         .task {
-            getTags()
+            manageModelsController.getTags()
         }
         .toolbar{
             HStack{
-                if(errorModel.showError){
+                if(manageModelsController.errorModel.showError){
                         Button {
-                            self.showingErrorPopover.toggle()
+                            manageModelsController.showingErrorPopover.toggle()
                         } label: {
                             Label("Error", systemImage: "exclamationmark.triangle")
                                 .foregroundStyle(.red)
                         }
-                        .popover(isPresented: self.$showingErrorPopover) {
+                        .popover(isPresented: $manageModelsController.showingErrorPopover) {
                             VStack(alignment: .leading) {
-                                Text(self.errorModel.errorTitle)
+                                Text(manageModelsController.errorModel.errorTitle)
                                     .font(.title2)
                                     .textSelection(.enabled)
-                                Text(self.errorModel.errorMessage)
+                                Text(manageModelsController.errorModel.errorMessage)
                                     .textSelection(.enabled)
                             }
                             .padding()
@@ -125,132 +112,11 @@ struct ManageModelsView: View {
                         .foregroundStyle(.green)
                 }
                 Button{
-                    getTags()
+                    manageModelsController.getTags()
                 }label: {
                     Image(systemName: "arrow.clockwise")
                         .frame(width: 20, height: 20, alignment: .center)
                 }
-            }
-        }
-    }
-    func getTags(){
-        Task{
-            do{
-                tags = try await getLocalModels(host: "\(self.host):\(self.port)", timeoutRequest: self.timeoutRequest, timeoutResource: self.timeoutResource)
-                errorModel.showError = false
-                if(self.tags != nil){
-                    if(self.tags!.models.count > 0){
-                        toDuplicate = self.tags!.models[0].name
-                    }else{
-                        toDuplicate = ""
-                        errorModel = noModelsError(error: nil)
-                    }
-                }else{
-                    toDuplicate = ""
-                    errorModel = noModelsError(error: nil)
-                }
-            } catch NetError.invalidURL (let error){
-                errorModel = invalidURLError(error: error)
-            } catch NetError.invalidData (let error){
-                errorModel = invalidTagsDataError(error: error)
-            } catch NetError.invalidResponse (let error){
-                errorModel = invalidResponseError(error: error)
-            } catch NetError.unreachable (let error){
-                errorModel = unreachableError(error: error)
-            } catch {
-                errorModel = genericError(error: error)
-            }
-        }
-    }
-    
-    func downloadModel(name: String){
-        Task{
-            do{
-                showProgress = true
-                
-                let endpoint = "\(host):\(port)" + "/api/pull"
-                
-                guard let url = URL(string: endpoint) else {
-                    throw NetError.invalidURL(error: nil)
-                }
-                
-                var request = URLRequest(url: url)
-                request.httpMethod = "POST"
-                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-                request.httpBody = "{\"name\":\"\(name)\"}".data(using: String.Encoding.utf8)!
-
-                let data: URLSession.AsyncBytes
-                let response: URLResponse
-                                
-                do{
-                    (data, response) = try await URLSession.shared.bytes(for: request)
-                }catch{
-                    throw NetError.unreachable(error: error)
-                }
-                
-                guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                    throw NetError.invalidResponse(error: nil)
-                }
-                
-                for try await line in data.lines {
-                    let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    let data = line.data(using: .utf8)!
-                    let decoded = try decoder.decode(DownloadResponseModel.self, from: data)
-                    self.completedSoFar = decoded.completed ?? 0
-                    self.totalSize = decoded.total ?? 100
-                }
-                
-                showProgress = false
-                getTags()
-            } catch NetError.invalidURL (let error){
-                errorModel = invalidURLError(error: error)
-            } catch NetError.invalidData (let error){
-                errorModel = invalidDataError(error: error)
-            } catch NetError.invalidResponse (let error){
-                errorModel = invalidResponseError(error: error)
-            } catch NetError.unreachable (let error){
-                errorModel = unreachableError(error: error)
-            } catch {
-                errorModel = genericError(error: error)
-            }
-        }
-    }
-    
-    func removeModel(name: String){
-        Task{
-            do{
-                try await deleteModel(host: "\(host):\(port)", name: name)
-                getTags()
-            } catch NetError.invalidURL (let error){
-                errorModel = invalidURLError(error: error)
-            } catch NetError.invalidData (let error){
-                errorModel = invalidDataError(error: error)
-            } catch NetError.invalidResponse (let error){
-                errorModel = invalidResponseError(error: error)
-            } catch NetError.unreachable (let error){
-                errorModel = unreachableError(error: error)
-            } catch {
-                errorModel = genericError(error: error)
-            }
-        }
-    }
-    
-    func duplicateModel(source: String, destination: String){
-        Task{
-            do{
-                try await copyModel(host: "\(host):\(port)", source: source, destination: destination)
-                getTags()
-            } catch NetError.invalidURL (let error){
-                errorModel = invalidURLError(error: error)
-            } catch NetError.invalidData (let error){
-                errorModel = invalidDataError(error: error)
-            } catch NetError.invalidResponse (let error){
-                errorModel = invalidResponseError(error: error)
-            } catch NetError.unreachable (let error){
-                errorModel = unreachableError(error: error)
-            } catch {
-                errorModel = genericError(error: error)
             }
         }
     }

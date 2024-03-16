@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var ollamaController = OllamaController()
     var body: some View {
         NavigationStack{
             ChatView()
