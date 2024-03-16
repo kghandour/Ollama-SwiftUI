@@ -18,11 +18,8 @@ class ChatController: ObservableObject{
     @Published var disabledEditor: Bool = false
     @Published var showingErrorPopover: Bool = false
     @Published var errorModel: ErrorModel = .init(showError: false, errorTitle: "", errorMessage: "")
+    let ollamaController = OllamaController()
     
-    @AppStorage("host") private var host = "http://127.0.0.1"
-    @AppStorage("port") private var port = "11434"
-    @AppStorage("timeoutRequest") private var timeoutRequest = "60"
-    @AppStorage("timeoutResource") private var timeoutResource = "604800"
     
     func getTags() {
         Task {
@@ -30,7 +27,7 @@ class ChatController: ObservableObject{
                 self.disabledButton = false
                 self.disabledEditor = false
                 self.errorModel.showError = false
-                self.tags = try await getLocalModels()
+                self.tags = try await ollamaController.getLocalModels()
                 if(self.tags != nil){
                     if(self.tags!.models.count > 0){
                         self.prompt.model = self.tags!.models[0].name
@@ -81,7 +78,7 @@ class ChatController: ObservableObject{
                 self.receivedResponse.append("")
                 
                 print("Sending request")
-                let endpoint = "\(self.host):\(self.port)" + "/api/chat"
+                let endpoint = ollamaController.apiAddress + "/api/chat"
                 
                 guard let url = URL(string: endpoint) else {
                     throw NetError.invalidURL(error: nil)
@@ -100,8 +97,8 @@ class ChatController: ObservableObject{
                 
                 do {
                     let sessionConfig = URLSessionConfiguration.default
-                    sessionConfig.timeoutIntervalForRequest = Double(self.timeoutRequest) ?? 60
-                    sessionConfig.timeoutIntervalForResource = Double(self.timeoutResource) ?? 604800
+                    sessionConfig.timeoutIntervalForRequest = Double(ollamaController.timeoutRequest) ?? 60
+                    sessionConfig.timeoutIntervalForResource = Double(ollamaController.timeoutResource) ?? 604800
                     (data, response) = try await URLSession(configuration: sessionConfig).bytes(for: request)
                 } catch {
                     throw NetError.unreachable(error: error)
@@ -135,36 +132,6 @@ class ChatController: ObservableObject{
         }
     }
     
-    func getLocalModels() async throws -> tagsParent{
-        let endpoint = "\(self.host):\(self.port)/api/tags"
-
-        guard let url = URL(string: endpoint) else {
-            throw NetError.invalidURL(error: nil)
-        }
-                
-        let data: Data
-        let response: URLResponse
-        
-        do{
-            let sessionConfig = URLSessionConfiguration.default
-            sessionConfig.timeoutIntervalForRequest = Double(self.timeoutRequest) ?? 60
-            sessionConfig.timeoutIntervalForResource = Double(self.timeoutResource) ?? 604800
-            (data, response) = try await URLSession(configuration: sessionConfig).data(from: url)
-        }catch{
-            throw NetError.unreachable(error: error)
-        }
-        
-        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-            throw NetError.invalidResponse(error: nil)
-        }
-        do {
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            let decoded = try decoder.decode(tagsParent.self, from: data)
-            return decoded
-        } catch {
-            throw NetError.invalidData(error: error)
-        }
-    }
+    
 }
 

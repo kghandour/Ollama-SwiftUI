@@ -12,6 +12,8 @@
 		32405D8B2ADB181A00EAAC10 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 32405D8A2ADB181A00EAAC10 /* Localizable.xcstrings */; };
 		3271CD112ADAC94500B14DD2 /* ErrorMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3271CD102ADAC94500B14DD2 /* ErrorMessages.swift */; };
 		3271CD132ADAD23400B14DD2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3271CD122ADAD23400B14DD2 /* SettingsView.swift */; };
+		327A09202BA5DCCC0045D889 /* OllamaController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327A091F2BA5DCCC0045D889 /* OllamaController.swift */; };
+		327A09222BA5DF720045D889 /* DefaultValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327A09212BA5DF720045D889 /* DefaultValues.swift */; };
 		327B90472AD17EA300A94F10 /* Ollama_SwiftApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327B90462AD17EA300A94F10 /* Ollama_SwiftApp.swift */; };
 		327B904B2AD17EA400A94F10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 327B904A2AD17EA400A94F10 /* Assets.xcassets */; };
 		327B904E2AD17EA400A94F10 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 327B904D2AD17EA400A94F10 /* Preview Assets.xcassets */; };
@@ -58,6 +60,8 @@
 		32405D8A2ADB181A00EAAC10 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		3271CD102ADAC94500B14DD2 /* ErrorMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessages.swift; sourceTree = "<group>"; };
 		3271CD122ADAD23400B14DD2 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		327A091F2BA5DCCC0045D889 /* OllamaController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OllamaController.swift; sourceTree = "<group>"; };
+		327A09212BA5DF720045D889 /* DefaultValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultValues.swift; sourceTree = "<group>"; };
 		327B90432AD17EA300A94F10 /* Ollama Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ollama Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		327B90462AD17EA300A94F10 /* Ollama_SwiftApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ollama_SwiftApp.swift; sourceTree = "<group>"; };
 		327B904A2AD17EA400A94F10 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -189,6 +193,7 @@
 			children = (
 				32CDC0312AD2DF4200D4DA6B /* ChatController.swift */,
 				320EE92D2ADAED4F00758FB9 /* ManageModelsController.swift */,
+				327A091F2BA5DCCC0045D889 /* OllamaController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -213,6 +218,7 @@
 				32CDC02D2AD2DEA500D4DA6B /* JSONParser.swift */,
 				32D730C62AD3F77100DF8044 /* ChatBubble.swift */,
 				3271CD102ADAC94500B14DD2 /* ErrorMessages.swift */,
+				327A09212BA5DF720045D889 /* DefaultValues.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -363,12 +369,14 @@
 				32CDC02C2AD2DE7600D4DA6B /* MenuView.swift in Sources */,
 				32CDC0302AD2DED600D4DA6B /* ChatView.swift in Sources */,
 				32CDC02E2AD2DEA500D4DA6B /* JSONParser.swift in Sources */,
+				327A09202BA5DCCC0045D889 /* OllamaController.swift in Sources */,
 				32CDC0232AD2B57400D4DA6B /* Prompt.swift in Sources */,
 				3271CD112ADAC94500B14DD2 /* ErrorMessages.swift in Sources */,
 				320EE92C2ADAE7DE00758FB9 /* ManageModelsView.swift in Sources */,
 				3271CD132ADAD23400B14DD2 /* SettingsView.swift in Sources */,
 				32CDC02A2AD2DD9200D4DA6B /* Menu.swift in Sources */,
 				32CDC0342AD2F93700D4DA6B /* Tags.swift in Sources */,
+				327A09222BA5DF720045D889 /* DefaultValues.swift in Sources */,
 				32DCE6BB2ADB090500A24528 /* ContentView.swift in Sources */,
 				327B90472AD17EA300A94F10 /* Ollama_SwiftApp.swift in Sources */,
 				32CDC0252AD2B59700D4DA6B /* Response.swift in Sources */,

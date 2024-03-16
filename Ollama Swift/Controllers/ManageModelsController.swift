@@ -20,15 +20,12 @@ class ManageModelsController: ObservableObject{
     @Published var totalSize: Double = 0
     @Published var completedSoFar: Double = 0
     
-    @AppStorage("host") private var host = "http://127.0.0.1"
-    @AppStorage("port") private var port = "11434"
-    @AppStorage("timeoutRequest") private var timeoutRequest = "60"
-    @AppStorage("timeoutResource") private var timeoutResource = "604800"
+    let ollamaController = OllamaController()
     
     func getTags(){
         Task{
             do{
-                self.tags = try await getLocalModels()
+                self.tags = try await ollamaController.getLocalModels()
                 self.errorModel.showError = false
                 if(self.tags != nil){
                     if(self.tags!.models.count > 0){
@@ -60,7 +57,7 @@ class ManageModelsController: ObservableObject{
             do{
                 showProgress = true
                 
-                let endpoint = "\(host):\(port)" + "/api/pull"
+                let endpoint = ollamaController.apiAddress + "/api/pull"
                 
                 guard let url = URL(string: endpoint) else {
                     throw NetError.invalidURL(error: nil)
@@ -112,7 +109,7 @@ class ManageModelsController: ObservableObject{
     func removeModel(name: String){
         Task{
             do{
-                try await deleteModel(name: name)
+                try await ollamaController.deleteModel(name: name)
                 getTags()
             } catch NetError.invalidURL (let error){
                 errorModel = invalidURLError(error: error)
@@ -131,7 +128,7 @@ class ManageModelsController: ObservableObject{
     func duplicateModel(){
         Task{
             do{
-                try await copyModel()
+                try await ollamaController.copyModel(toDuplicate: self.toDuplicate, newName: self.newName)
                 getTags()
             } catch NetError.invalidURL (let error){
                 errorModel = invalidURLError(error: error)
@@ -146,97 +143,5 @@ class ManageModelsController: ObservableObject{
             }
         }
     }
-    
-    func getLocalModels() async throws -> tagsParent{
-        let endpoint = "\(self.host):\(self.port)/api/tags"
-        
-        guard let url = URL(string: endpoint) else {
-            throw NetError.invalidURL(error: nil)
-        }
-                
-        let data: Data
-        let response: URLResponse
-        
-        do{
-            let sessionConfig = URLSessionConfiguration.default
-            sessionConfig.timeoutIntervalForRequest = Double(timeoutRequest) ?? 60
-            sessionConfig.timeoutIntervalForResource = Double(timeoutResource) ?? 604800
-            (data, response) = try await URLSession(configuration: sessionConfig).data(from: url)
-        }catch{
-            throw NetError.unreachable(error: error)
-        }
-        
-        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-            print("error")
-            throw NetError.invalidResponse(error: nil)
-        }
-        do {
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            let decoded = try decoder.decode(tagsParent.self, from: data)
-            return decoded
-        } catch {
-            throw NetError.invalidData(error: error)
-        }
-    }
-    
-    func deleteModel(name: String) async throws{
-        let endpoint = "\(host):\(port)" + "/api/delete"
-        
-        guard let url = URL(string: endpoint) else {
-            throw NetError.invalidURL(error: nil)
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "DELETE"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .convertToSnakeCase
-        request.httpBody = "{\"name\":\"\(name)\"}".data(using: String.Encoding.utf8)!
-        
-        let response: URLResponse
-        
-        do{
-            (_, response) = try await URLSession.shared.data(for: request)
-        }catch{
-            throw NetError.unreachable(error: error)
-        }
-        
-        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-            throw NetError.invalidResponse(error: nil)
-        }
-    }
-
-    func copyModel() async throws {
-        print("Sending request")
-        let endpoint = "\(host):\(port)" + "/api/copy"
-        
-        guard let url = URL(string: endpoint) else {
-            throw NetError.invalidURL(error: nil)
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .convertToSnakeCase
-        request.httpBody = "{\"source\":\"\(toDuplicate)\", \"destination\":\"\(newName)\"}".data(using: String.Encoding.utf8)!
-        
-        let response: URLResponse
-        
-        do{
-            (_, response) = try await URLSession.shared.data(for: request)
-        }catch{
-            throw NetError.unreachable(error: error)
-        }
-        
-        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-            throw NetError.invalidResponse(error: nil)
-        }
-    }
-
-    
 }
 
