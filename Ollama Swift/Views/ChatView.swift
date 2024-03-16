@@ -61,21 +61,31 @@ struct ChatView: View {
             }
             .defaultScrollAnchor(.bottom)
             HStack(alignment: .bottom){
-                TextField("Enter prompt...", text: chatController.disabledEditor ? .constant(chatController.prompt.prompt) : $chatController.prompt.prompt, axis: .vertical)
-                    .lineLimit(5)
-                    .onChange(of: chatController.prompt.prompt) {
-                        if chatController.prompt.prompt.count > 0 {
-                            chatController.disabledButton = false
-                        } else {
-                            chatController.disabledButton = true
+                ZStack(alignment: .topLeading) {
+                    
+
+                    TextEditor(text: $chatController.prompt.prompt)
+                        .padding(.leading, 5)
+                        .padding(.top, 8)
+                        .frame(minHeight: 35, maxHeight: 200)
+                        .foregroundColor(.primary)
+                        .dynamicTypeSize(.medium ... .xxLarge)
+                        .fixedSize(horizontal: false, vertical: true)
+                        
+                        .onChange(of: chatController.prompt.prompt) { newValue, _ in
+                            chatController.disabledButton = newValue.isEmpty
                         }
+                        .focused(self.$promptFieldIsFocused)
+                        .disabled(chatController.disabledEditor)
+                    
+                    if chatController.prompt.prompt.isEmpty {
+                        Text("Enter prompt...")
+                            .foregroundColor(Color.gray)
+                            .padding(.leading, 10)
+                            .padding(.top, 10)
                     }
-                    .focused(self.$promptFieldIsFocused)
-                    .disabled(chatController.disabledEditor)
-                    .onSubmit {
-                        !chatController.disabledButton ? chatController.send() : nil
-                    }
-                    .textFieldStyle(.roundedBorder)
+                }
+                .frame(minHeight: 36)
                 
                 Button {
                     chatController.send()
