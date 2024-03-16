@@ -60,6 +60,14 @@ struct ChatView: View {
                 }
             }
             .defaultScrollAnchor(.bottom)
+            HStack {
+                TextField("Enter system prompt...", text: $chatController.prompt.system, axis: .vertical)
+                    .lineLimit(3)
+                    .disabled(chatController.disabledEditor)
+                    .textFieldStyle(.roundedBorder)
+            }
+            .padding()
+            .background(.ultraThickMaterial)
             HStack(alignment: .bottom){
                 ZStack(alignment: .topLeading) {
                     TextEditor(text: $chatController.prompt.prompt)
