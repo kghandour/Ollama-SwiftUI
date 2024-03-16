@@ -18,6 +18,7 @@ class ChatController: ObservableObject{
     @Published var disabledEditor: Bool = false
     @Published var showingErrorPopover: Bool = false
     @Published var errorModel: ErrorModel = .init(showError: false, errorTitle: "", errorMessage: "")
+    @Published var expandOptions: Bool = false
     let ollamaController = OllamaController()
     
     
