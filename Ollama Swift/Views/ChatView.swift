@@ -68,28 +68,27 @@ struct ChatView: View {
             }
             .padding()
             .background(.ultraThickMaterial)
-            HStack(alignment: .bottom){
+            .frame(height: chatController.expandOptions ? nil : 0)
+            .clipped()
+            HStack(){
                 ZStack(alignment: .topLeading) {
+                    if chatController.prompt.prompt.isEmpty {
+                        Text("Enter prompt...")
+                            .foregroundColor(Color.gray)
+                            .padding(.leading, 10)
+                    }
                     TextEditor(text: $chatController.prompt.prompt)
                         .padding(.leading, 5)
-                        .padding(.top, 8)
                         .frame(minHeight: 35, maxHeight: 200)
                         .foregroundColor(.primary)
                         .dynamicTypeSize(.medium ... .xxLarge)
                         .fixedSize(horizontal: false, vertical: true)
-                        
+                        .opacity(chatController.prompt.prompt.isEmpty ? 0.75 : 1)
                         .onChange(of: chatController.prompt.prompt) { newValue, _ in
                             chatController.disabledButton = newValue.isEmpty
                         }
                         .focused(self.$promptFieldIsFocused)
                         .disabled(chatController.disabledEditor)
-                    
-                    if chatController.prompt.prompt.isEmpty {
-                        Text("Enter prompt...")
-                            .foregroundColor(Color.gray)
-                            .padding(.leading, 10)
-                            .padding(.top, 10)
-                    }
                 }
                 .frame(minHeight: 36)
                 
@@ -108,8 +107,16 @@ struct ChatView: View {
                     Image(systemName: "trash")
                         .frame(width: 20, height: 20, alignment: .center)
                 }
+                Button{
+                    withAnimation {
+                        chatController.expandOptions.toggle()
+                    }
+                } label: {
+                    Image(systemName: "rectangle.expand.vertical")
+                        .frame(width: 20, height: 20, alignment: .center)
+                }
             }
-            .padding()
+            .padding(6)
             .background(.ultraThickMaterial)
         }
         .frame(minWidth: 400, idealWidth: 700, minHeight: 600, idealHeight: 800)
