@@ -9,7 +9,6 @@ import MarkdownUI
 import SwiftUI
 
 struct ChatView: View {
-    let fontSize: CGFloat = 15
     @StateObject var chatController = ChatController()
     
     @FocusState private var promptFieldIsFocused: Bool
