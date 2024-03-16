@@ -62,8 +62,6 @@ struct ChatView: View {
             .defaultScrollAnchor(.bottom)
             HStack(alignment: .bottom){
                 ZStack(alignment: .topLeading) {
-                    
-
                     TextEditor(text: $chatController.prompt.prompt)
                         .padding(.leading, 5)
                         .padding(.top, 8)
