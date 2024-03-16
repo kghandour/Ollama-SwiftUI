@@ -67,7 +67,9 @@ class ChatController: ObservableObject{
                 self.sentPrompt.append(self.prompt.prompt)
                 
                 var chatHistory = ChatModel(model: self.prompt.model, messages: [])
-                
+                if(prompt.system != ""){
+                    chatHistory.messages.append(ChatMessage(role: "system", content: self.prompt.system))
+                }
                 for i in 0 ..< self.sentPrompt.count {
                     chatHistory.messages.append(ChatMessage(role: "user", content: self.sentPrompt[i]))
                     if i < self.receivedResponse.count {
@@ -118,6 +120,7 @@ class ChatController: ObservableObject{
                 }
                 self.disabledEditor = false
                 self.prompt.prompt = ""
+                self.prompt.system = ""
             } catch let NetError.invalidURL(error) {
                 errorModel = invalidURLError(error: error)
             } catch let NetError.invalidData(error) {

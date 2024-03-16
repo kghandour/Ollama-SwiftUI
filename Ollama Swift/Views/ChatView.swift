@@ -61,9 +61,9 @@ struct ChatView: View {
             }
             .defaultScrollAnchor(.bottom)
             HStack {
-                TextField("Enter system prompt...", text: self.$prompt.system, axis: .vertical)
+                TextField("Enter system prompt...", text: $chatController.prompt.system, axis: .vertical)
                     .lineLimit(3)
-                    .disabled(self.disabledEditor)
+                    .disabled(chatController.disabledEditor)
                     .textFieldStyle(.roundedBorder)
             }
             .padding()
