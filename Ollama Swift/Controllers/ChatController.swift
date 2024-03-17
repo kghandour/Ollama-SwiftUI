@@ -121,7 +121,6 @@ class ChatController: ObservableObject{
                 }
                 self.disabledEditor = false
                 self.prompt.prompt = ""
-                self.prompt.system = ""
             } catch let NetError.invalidURL(error) {
                 errorModel = invalidURLError(error: error)
             } catch let NetError.invalidData(error) {
