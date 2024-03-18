@@ -64,6 +64,10 @@ class ChatController: ObservableObject{
         self.sentPrompt = []
         self.receivedResponse = []
         self.chatHistory = ChatModel(model: "", messages: [])
+        self.prompt = PromptModel(prompt: "", model: "", system: "")
+        self.photoPath = ""
+        self.photoBase64 = ""
+        self.photoImage = nil
     }
     
     func send() {

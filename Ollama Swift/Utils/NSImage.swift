@@ -13,7 +13,7 @@ extension NSImage {
     func base64String() -> String? {
         guard
             let bits = self.representations.first as? NSBitmapImageRep,
-            let data = bits.representation(using: .jpeg, properties: [:])
+            let data = bits.representation(using: .jpeg, properties: [NSBitmapImageRep.PropertyKey.compressionFactor:1.0])
         else {
             return nil
         }
