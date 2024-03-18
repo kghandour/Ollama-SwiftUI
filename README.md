@@ -29,13 +29,18 @@ A user-friendly interface for [Ollama AI](https://ollama.ai) created in Swift. T
 1. Chatting with local Large Language Models.
 2. Ability to change model mid conversation.
 3. Restart Conversation at anytime.
-4. New Tabs for different conversations.
-5. Ability to download models using the GUI (Check https://ollama.ai/library for list of model names to download)
-6. Ability to delete models
-7. Ability to duplicate models
-8. Light and Dark Mode
-9. Localizable interface. Currently Localized in: English and Arabic
+4. **[NEW]** Now supports sending system prompt
+5. **[NEW]** Now supports multimodal models with image + text.
+6. New Tabs for different conversations.
+7. Ability to download models using the GUI (Check https://ollama.ai/library for list of model names to download)
+8. Ability to delete models
+9. Ability to duplicate models
+10. Light and Dark Mode
+11. Localizable interface. Currently Localized in: English and Arabic
 
+![SystemPrompt](assets/images/SystemPrompt.png)
+![ImagePromptInput](assets/images/ImagePrompt1.png)
+![ImagePromptChat](assets/images/ImagePrompt2.png)
 ![Manage Models example](assets/images/LightMode2.png)
 
 ## Getting Started:
