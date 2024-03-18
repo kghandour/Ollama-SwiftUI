@@ -25,7 +25,6 @@ class ChatController: ObservableObject{
     @Published var photoPath: String = ""
     @Published var photoBase64: String = ""
     @Published var photoImage: Image?
-    @Published var showFileChooser: Bool = false
     let ollamaController = OllamaController()
     
     
@@ -64,8 +63,10 @@ class ChatController: ObservableObject{
     func resetChat() {
         self.sentPrompt = []
         self.receivedResponse = []
+        self.sentImages = []
         self.chatHistory = ChatModel(model: "", messages: [])
-        self.prompt = PromptModel(prompt: "", model: "", system: "")
+        self.prompt.prompt = ""
+        self.prompt.system = ""
         self.photoPath = ""
         self.photoBase64 = ""
         self.photoImage = nil
