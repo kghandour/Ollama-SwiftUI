@@ -20,6 +20,7 @@
 		327B90592AD17EA400A94F10 /* Ollama_SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327B90582AD17EA400A94F10 /* Ollama_SwiftTests.swift */; };
 		327B90632AD17EA400A94F10 /* Ollama_SwiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327B90622AD17EA400A94F10 /* Ollama_SwiftUITests.swift */; };
 		327B90652AD17EA400A94F10 /* Ollama_SwiftUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327B90642AD17EA400A94F10 /* Ollama_SwiftUITestsLaunchTests.swift */; };
+		32A488B62BA8505D0097EB49 /* NSImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A488B52BA8505D0097EB49 /* NSImage.swift */; };
 		32CDC01C2AD1F6C700D4DA6B /* NDJsonParser_SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CDC01B2AD1F6C700D4DA6B /* NDJsonParser_SwiftTests.swift */; };
 		32CDC0212AD2B50600D4DA6B /* MenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CDC0202AD2B50600D4DA6B /* MenuItem.swift */; };
 		32CDC0232AD2B57400D4DA6B /* Prompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CDC0222AD2B57400D4DA6B /* Prompt.swift */; };
@@ -72,6 +73,7 @@
 		327B905E2AD17EA400A94F10 /* Ollama SwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Ollama SwiftUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		327B90622AD17EA400A94F10 /* Ollama_SwiftUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ollama_SwiftUITests.swift; sourceTree = "<group>"; };
 		327B90642AD17EA400A94F10 /* Ollama_SwiftUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ollama_SwiftUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		32A488B52BA8505D0097EB49 /* NSImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSImage.swift; sourceTree = "<group>"; };
 		32CDC01B2AD1F6C700D4DA6B /* NDJsonParser_SwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NDJsonParser_SwiftTests.swift; sourceTree = "<group>"; };
 		32CDC0202AD2B50600D4DA6B /* MenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItem.swift; sourceTree = "<group>"; };
 		32CDC0222AD2B57400D4DA6B /* Prompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prompt.swift; sourceTree = "<group>"; };
@@ -219,6 +221,7 @@
 				32D730C62AD3F77100DF8044 /* ChatBubble.swift */,
 				3271CD102ADAC94500B14DD2 /* ErrorMessages.swift */,
 				327A09212BA5DF720045D889 /* DefaultValues.swift */,
+				32A488B52BA8505D0097EB49 /* NSImage.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -365,6 +368,7 @@
 				32CDC0322AD2DF4200D4DA6B /* ChatController.swift in Sources */,
 				32D730C72AD3F77100DF8044 /* ChatBubble.swift in Sources */,
 				32CDC0212AD2B50600D4DA6B /* MenuItem.swift in Sources */,
+				32A488B62BA8505D0097EB49 /* NSImage.swift in Sources */,
 				320EE92E2ADAED4F00758FB9 /* ManageModelsController.swift in Sources */,
 				32CDC02C2AD2DE7600D4DA6B /* MenuView.swift in Sources */,
 				32CDC0302AD2DED600D4DA6B /* ChatView.swift in Sources */,
@@ -560,7 +564,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kghandour.Ollama-Swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -590,7 +594,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kghandour.Ollama-Swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

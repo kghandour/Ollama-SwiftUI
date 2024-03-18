@@ -7,18 +7,25 @@
 
 import Foundation
 import SwiftUI
+import PhotosUI
 
 @MainActor
 class ChatController: ObservableObject{
     @Published var prompt: PromptModel = .init(prompt: "", model: "", system: "")
     @Published var sentPrompt: [String] = []
     @Published var receivedResponse: [String] = []
+    @Published var sentImages: [Image?] = []
+    @Published var chatHistory = ChatModel(model: "", messages: [])
     @Published var tags: tagsParent?
     @Published var disabledButton: Bool = true
     @Published var disabledEditor: Bool = false
     @Published var showingErrorPopover: Bool = false
     @Published var errorModel: ErrorModel = .init(showError: false, errorTitle: "", errorMessage: "")
     @Published var expandOptions: Bool = false
+    @Published var photoPath: String = ""
+    @Published var photoBase64: String = ""
+    @Published var photoImage: Image?
+    @Published var showFileChooser: Bool = false
     let ollamaController = OllamaController()
     
     
@@ -57,6 +64,11 @@ class ChatController: ObservableObject{
     func resetChat() {
         self.sentPrompt = []
         self.receivedResponse = []
+        self.chatHistory = ChatModel(model: "", messages: [])
+        self.prompt = PromptModel(prompt: "", model: "", system: "")
+        self.photoPath = ""
+        self.photoBase64 = ""
+        self.photoImage = nil
     }
     
     func send() {
@@ -66,18 +78,15 @@ class ChatController: ObservableObject{
                 self.disabledEditor = true
                 
                 self.sentPrompt.append(self.prompt.prompt)
+                self.sentImages.append(self.photoImage ?? nil)
                 
-                var chatHistory = ChatModel(model: self.prompt.model, messages: [])
-                if(prompt.system != ""){
-                    chatHistory.messages.append(ChatMessage(role: "system", content: self.prompt.system))
+                self.chatHistory.model = self.prompt.model
+                self.chatHistory.messages.append(ChatMessage(role: "system", content: self.prompt.system))
+                if(self.photoPath == ""){
+                    self.chatHistory.messages.append(ChatMessage(role: "user", content: self.sentPrompt.last!))
+                }else{
+                    self.chatHistory.messages.append(ChatMessage(role: "user", content: self.sentPrompt.last!, images: [self.photoBase64]))
                 }
-                for i in 0 ..< self.sentPrompt.count {
-                    chatHistory.messages.append(ChatMessage(role: "user", content: self.sentPrompt[i]))
-                    if i < self.receivedResponse.count {
-                        chatHistory.messages.append(ChatMessage(role: "assistant", content: self.receivedResponse[i]))
-                    }
-                }
-                
                 self.receivedResponse.append("")
                 
                 print("Sending request")
@@ -119,8 +128,12 @@ class ChatController: ObservableObject{
                     
                     self.receivedResponse[self.receivedResponse.count - 1].append(decoded.message.content)
                 }
+                self.chatHistory.messages.append(ChatMessage(role: "assistant", content: self.receivedResponse.last!))
                 self.disabledEditor = false
                 self.prompt.prompt = ""
+                self.photoPath = ""
+                self.photoImage = nil
+                self.photoBase64 = ""
             } catch let NetError.invalidURL(error) {
                 errorModel = invalidURLError(error: error)
             } catch let NetError.invalidData(error) {
