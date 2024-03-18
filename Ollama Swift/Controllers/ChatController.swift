@@ -14,6 +14,7 @@ class ChatController: ObservableObject{
     @Published var prompt: PromptModel = .init(prompt: "", model: "", system: "")
     @Published var sentPrompt: [String] = []
     @Published var receivedResponse: [String] = []
+    @Published var sentImages: [Image?] = []
     @Published var chatHistory = ChatModel(model: "", messages: [])
     @Published var tags: tagsParent?
     @Published var disabledButton: Bool = true
@@ -77,6 +78,7 @@ class ChatController: ObservableObject{
                 self.disabledEditor = true
                 
                 self.sentPrompt.append(self.prompt.prompt)
+                self.sentImages.append(self.photoImage ?? nil)
                 
                 self.chatHistory.model = self.prompt.model
                 self.chatHistory.messages.append(ChatMessage(role: "system", content: self.prompt.system))
@@ -129,6 +131,9 @@ class ChatController: ObservableObject{
                 self.chatHistory.messages.append(ChatMessage(role: "assistant", content: self.receivedResponse.last!))
                 self.disabledEditor = false
                 self.prompt.prompt = ""
+                self.photoPath = ""
+                self.photoImage = nil
+                self.photoBase64 = ""
             } catch let NetError.invalidURL(error) {
                 errorModel = invalidURLError(error: error)
             } catch let NetError.invalidData(error) {

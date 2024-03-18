@@ -26,11 +26,17 @@ struct ChatView: View {
                         .padding()
                     ForEach(Array(chatController.sentPrompt.enumerated()), id: \.offset) { idx, sent in
                         ChatBubble(direction: .right) {
-                            Markdown {
-                                .init(sent.trimmingCharacters(in: .whitespacesAndNewlines))
-                            }
-                            .markdownTextStyle{
-                                ForegroundColor(Color.white)
+                            VStack{
+                                chatController.sentImages[idx]?
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 150, height: 150)
+                                Markdown {
+                                    .init(sent.trimmingCharacters(in: .whitespacesAndNewlines))
+                                }
+                                .markdownTextStyle{
+                                    ForegroundColor(Color.white)
+                                }
                             }
                             .padding([.leading, .trailing])
                             .padding([.top, .bottom], 8)
