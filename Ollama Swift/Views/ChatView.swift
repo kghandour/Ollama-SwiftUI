@@ -7,12 +7,14 @@
 
 import MarkdownUI
 import SwiftUI
+import PhotosUI
 
 struct ChatView: View {
     @StateObject var chatController = ChatController()
     
     @FocusState private var promptFieldIsFocused: Bool
     @Namespace var bottomId
+    
     
     var body: some View {
         VStack(spacing: 0)
@@ -75,24 +77,59 @@ struct ChatView: View {
                         .disabled(chatController.disabledEditor)
                         .textFieldStyle(.roundedBorder)
                         .padding()
+                    chatController.photoImage?
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 300, height: 300)
+                    HStack{
+                        Text("Make sure to use a multimodal model such as llava when using images")
+                        Spacer()
+                        if(chatController.photoPath != ""){
+                            Button("Remove photo"){
+                                chatController.photoPath = ""
+                                chatController.photoImage = nil
+                            }
+                        }
+                        Button("Select photo"){
+                            let dialog = NSOpenPanel()
+                            
+                            dialog.title = "Choose an image"
+                            dialog.showsResizeIndicator = true
+                            dialog.showsHiddenFiles = false
+                            dialog.allowsMultipleSelection = false
+                            dialog.canChooseDirectories = false
+                            dialog.allowedContentTypes = [.png, .jpeg]
+                            
+                            if (dialog.runModal() ==  NSApplication.ModalResponse.OK) {
+                                let result = dialog.url // Pathname of the file
+                                
+                                if (result != nil) {
+                                    let path: String = result!.path
+                                    chatController.photoPath = path
+                                    // path contains the file path e.g
+                                    // /Users/ourcodeworld/Desktop/file.txt
+                                }
+                                
+                            } else {
+                                // User clicked on "Cancel"
+                                return
+                            }
+                        }
+                    }
+                }
+                .onChange(of: chatController.photoPath) {
+                    Task {
+                        if let loaded =
+                            NSImage(contentsOf: URL(filePath: chatController.photoPath)) {
+                            chatController.photoBase64 = loaded.base64String() ?? ""
+                            chatController.photoImage = Image(nsImage: loaded)
+                        } else {
+                            print("Failed")
+                        }
+                    }
                 }
                 .frame(height: chatController.expandOptions ? nil : 0)
                 .clipped()
-                Button{
-                    withAnimation {
-                        chatController.expandOptions.toggle()
-                    }
-                } label: {
-                    if(!chatController.expandOptions){
-                        Text("More Options")
-                        Image(systemName: "arrow.up")
-                            .frame(width: 20, height: 20, alignment: .center)
-                    }else{
-                        Text("Hide Options")
-                        Image(systemName: "arrow.down")
-                            .frame(width: 20, height: 20, alignment: .center)
-                    }
-                }
                 HStack(){
                     ZStack(alignment: .topLeading) {
                         if chatController.prompt.prompt.isEmpty {
@@ -102,33 +139,52 @@ struct ChatView: View {
                         }
                         TextEditor(text: $chatController.prompt.prompt)
                             .padding(.leading, 5)
-                            .frame(minHeight: 35, maxHeight: 200)
+                            .frame(minHeight: 50, maxHeight: 200)
                             .foregroundColor(.primary)
                             .dynamicTypeSize(.medium ... .xxLarge)
                             .fixedSize(horizontal: false, vertical: true)
                             .opacity(chatController.prompt.prompt.isEmpty ? 0.75 : 1)
                             .onChange(of: chatController.prompt.prompt) { newValue, _ in
-                                chatController.disabledButton = newValue.isEmpty
+                                chatController.disabledButton = chatController.prompt.prompt.isEmpty
                             }
                             .focused(self.$promptFieldIsFocused)
                             .disabled(chatController.disabledEditor)
                     }
-                    .frame(minHeight: 36)
+                    .frame(minHeight: 50)
                     
-                    Button {
-                        chatController.send()
-                    } label: {
-                        Image(systemName: "paperplane")
-                            .frame(width: 20, height: 20, alignment: .center)
-                            .foregroundStyle(.blue)
-                    }
-                    .disabled(chatController.disabledButton)
-                    
-                    Button {
-                        chatController.resetChat()
-                    } label: {
-                        Image(systemName: "trash")
-                            .frame(width: 20, height: 20, alignment: .center)
+                    VStack{
+                        Button{
+                            withAnimation {
+                                chatController.expandOptions.toggle()
+                            }
+                        } label: {
+                            if(!chatController.expandOptions){
+                                Text("More Options")
+                                Image(systemName: "arrow.up")
+                                    .frame(width: 20, height: 20, alignment: .center)
+                            }else{
+                                Text("Hide Options")
+                                Image(systemName: "arrow.down")
+                                    .frame(width: 20, height: 20, alignment: .center)
+                            }
+                        }
+                        HStack{
+                            Button {
+                                chatController.send()
+                            } label: {
+                                Image(systemName: "paperplane")
+                                    .frame(width: 40, height: 20, alignment: .center)
+                                    .foregroundStyle(.blue)
+                            }
+                            .disabled(chatController.disabledButton)
+                            
+                            Button {
+                                chatController.resetChat()
+                            } label: {
+                                Image(systemName: "trash")
+                                    .frame(width: 40, height: 20, alignment: .center)
+                            }
+                        }
                     }
                 }
             }

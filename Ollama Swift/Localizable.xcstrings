@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+
+    },
     "%.3f GB" : {
 
     },
@@ -79,6 +82,9 @@
         }
       }
     },
+    "Hide Options" : {
+
+    },
     "Host IP:" : {
 
     },
@@ -95,6 +101,9 @@
           }
         }
       }
+    },
+    "Make sure to use a multimodal model such as llava when using images" : {
+
     },
     "Manage Models" : {
       "localizations" : {
@@ -115,6 +124,9 @@
           }
         }
       }
+    },
+    "More Options" : {
+
     },
     "New Name" : {
       "localizations" : {
@@ -146,10 +158,16 @@
     "Port:" : {
 
     },
+    "Remove photo" : {
+
+    },
     "Request Timeout (in sec. Default 60):" : {
 
     },
     "Resources Timeout (in sec. Default: 604800):" : {
+
+    },
+    "Select photo" : {
 
     },
     "Server Status: " : {

@@ -21,4 +21,5 @@ struct ChatModel: Encodable{
 struct ChatMessage :Encodable, Equatable, Hashable, Decodable{
     var role: String
     var content: String
+    var images: [String]?
 }
