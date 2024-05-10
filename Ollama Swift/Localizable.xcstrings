@@ -5,7 +5,14 @@
 
     },
     "%.3f GB" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%.3f GB"
+          }
+        }
+      }
     },
     "%lld/ %lld MB" : {
       "localizations" : {
@@ -14,11 +21,24 @@
             "state" : "new",
             "value" : "%1$lld/ %2$lld MB"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld/ %2$lld MB"
+          }
         }
       }
     },
     "A good starting model is llama2. Simply write the model name in the field above" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um modelo inicial adequado é Llama2. Simplesmente escreva o nome do modelo na área acima."
+          }
+        }
+      }
     },
     "Add model:" : {
       "localizations" : {
@@ -26,6 +46,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "اضافة نموذج "
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicionar modelo:"
           }
         }
       }
@@ -37,11 +63,24 @@
             "state" : "translated",
             "value" : "اضافة نموذج "
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicionar modelo:"
+          }
         }
       }
     },
     "Connected" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conectado"
+          }
+        }
+      }
     },
     "Downloading %@" : {
       "localizations" : {
@@ -49,6 +88,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "تنزيل %@"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baixando"
           }
         }
       }
@@ -60,17 +105,44 @@
             "state" : "translated",
             "value" : "نسخ نموذج "
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duplicar modelo"
+          }
         }
       }
     },
     "Enter prompt..." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Insira o comando..."
+          }
+        }
+      }
     },
     "Enter system prompt..." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Insira o comando do sistema..."
+          }
+        }
+      }
     },
     "Error" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro"
+          }
+        }
+      }
     },
     "General" : {
       "localizations" : {
@@ -79,17 +151,44 @@
             "state" : "translated",
             "value" : "العام"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geral"
+          }
         }
       }
     },
     "Hide Options" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocular opçoes"
+          }
+        }
+      }
     },
     "Host IP:" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "IP do Host:"
+          }
+        }
+      }
     },
     "Local Models:" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modelos locais:"
+          }
+        }
+      }
     },
     "Local Models: " : {
       "extractionState" : "stale",
@@ -99,11 +198,24 @@
             "state" : "translated",
             "value" : "النماذج المتاحة محليا "
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modelos locais:"
+          }
         }
       }
     },
     "Make sure to use a multimodal model such as llava when using images" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Certifique-se de utilizar um modelo multimodal como LLaVA ao trabalhar com imagens."
+          }
+        }
+      }
     },
     "Manage Models" : {
       "localizations" : {
@@ -111,6 +223,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ادارة النماذج"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gerenciar modelos"
           }
         }
       }
@@ -122,11 +240,24 @@
             "state" : "translated",
             "value" : "النموذج"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modelos:"
+          }
         }
       }
     },
     "More Options" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mais Opções"
+          }
+        }
+      }
     },
     "New Name" : {
       "localizations" : {
@@ -135,14 +266,34 @@
             "state" : "translated",
             "value" : "الاسم الجديد"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Novo Nome"
+          }
         }
       }
     },
     "New Tab" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nova Aba"
+          }
+        }
+      }
     },
     "No models downloaded locally. Add a model by typing the name in the field at the bottom of the page." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sem modelos baixados localmente. Adicione um modelo digitando o nome no campo inferior da página."
+          }
+        }
+      }
     },
     "Online" : {
       "extractionState" : "stale",
@@ -152,23 +303,64 @@
             "state" : "translated",
             "value" : "متصل"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Online"
+          }
         }
       }
     },
     "Port:" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Porta:"
+          }
+        }
+      }
     },
     "Remove photo" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remover foto"
+          }
+        }
+      }
     },
     "Request Timeout (in sec. Default 60):" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timeout da Requisição (em seg. Padrão 60):"
+          }
+        }
+      }
     },
     "Resources Timeout (in sec. Default: 604800):" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timeout de Recursos (em seg. Padrão: 604800):"
+          }
+        }
+      }
     },
     "Select photo" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecionar foto"
+          }
+        }
+      }
     },
     "Server Status: " : {
       "extractionState" : "stale",
@@ -178,11 +370,24 @@
             "state" : "translated",
             "value" : "حالة الاتصال"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estado do Servidor:"
+          }
         }
       }
     },
     "Server:" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Servidor:"
+          }
+        }
+      }
     },
     "This is the start of your chat" : {
       "localizations" : {
@@ -190,6 +395,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "هذه بداية المحادثة"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aqui é o começo da sua conversa"
           }
         }
       }
@@ -200,6 +411,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "للعثور على أسماء النماذج المراد تنزيلها، قم بالبحث: https://ollama.ai/library"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para encontrar nomes de modelos para baixar, visite: https://ollama.ai/library"
           }
         }
       }
