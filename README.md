@@ -4,7 +4,7 @@
 <p align="center">
     <img src="assets/images/OllamaSwift.svg" width="128">
 </p>
-A user-friendly interface for [Ollama AI](https://ollama.ai) created in Swift. This application is not directly affiliated with Ollama.ai
+A user-friendly interface for https://ollama.ai created in Swift. This application is not directly affiliated with Ollama.ai
 
 **This app requires Ollama to be installed and online to function.** Install Ollama: https://ollama.ai
 
@@ -46,7 +46,7 @@ A user-friendly interface for [Ollama AI](https://ollama.ai) created in Swift. T
 ## Getting Started:
 1. Install Ollama ( https://ollama.ai )
 2. Open Ollama
-3. Run Ollama Swift
+3. Run Ollama Swift (Note: If opening Ollama Swift starts the settings page, open a new window using Command + N)
 4. Download your first model by going into Manage Models
     - Check possible models to download on: https://ollama.ai/models
     - Copy and paste the name and press on the download button
@@ -77,6 +77,13 @@ A user-friendly interface for [Ollama AI](https://ollama.ai) created in Swift. T
 
 ### 7. Are there any system requirements?
 - This is a very simple light-weight user interface. As long as you can run https://ollama.ai locally, then this application should work as well.
+
+### 8. What keyboard shortcuts are supported?
+- command + return : Send a message
+- command + "r" : Refresh connection to server
+- command + "n" : Start a new window
+- command + "t" : Open a new tab
+- command + "," : Open settings
 
 
 ## Dark Mode also available!
