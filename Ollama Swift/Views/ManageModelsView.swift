@@ -117,6 +117,7 @@ struct ManageModelsView: View {
                     Image(systemName: "arrow.clockwise")
                         .frame(width: 20, height: 20, alignment: .center)
                 }
+                .keyboardShortcut(.return, modifiers: [.command])
             }
         }
     }

@@ -180,9 +180,9 @@ struct ChatView: View {
                             } label: {
                                 Image(systemName: "paperplane")
                                     .frame(width: 40, height: 20, alignment: .center)
-                                    .foregroundStyle(.blue)
                             }
                             .disabled(chatController.disabledButton)
+                            .keyboardShortcut(.return, modifiers: [.command])
                             
                             Button {
                                 chatController.resetChat()
@@ -245,6 +245,8 @@ struct ChatView: View {
                     Image(systemName: "arrow.clockwise")
                         .frame(width: 20, height: 20, alignment: .center)
                 }
+                .keyboardShortcut("r", modifiers: [.command])
+
             }
         }
     }
