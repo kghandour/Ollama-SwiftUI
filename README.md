@@ -8,6 +8,11 @@ A user-friendly interface for https://ollama.ai created in Swift. This applicati
 
 **This app requires Ollama to be installed and online to function.** Install Ollama: https://ollama.ai
 
+## State of Ollama-SwiftUI: Call to contributions!
+It has been a wonderful journey. However, sadly, I have been too busy to maintain or add features to this project. I fear as I use MacOS less in the future, my time spent on developing features will decrease as well. This is a call to contributions! If anyone would love to contribute some code or changes, I would definitely review and offer support where I can. Thanks to everyone who supported Ollama-SwiftUI all this time! 
+
+You can read more about this in the announcements here: https://github.com/kghandour/Ollama-SwiftUI/discussions/49
+
 ## Table of Content
 1. [Introduction](#introduction)
 2. [Changelog](CHANGELOG.md)
