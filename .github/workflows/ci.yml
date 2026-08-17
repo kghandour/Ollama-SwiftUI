@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    name: Build and unit tests
+    runs-on: macos-15
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Resolve Swift packages
+        run: >-
+          xcodebuild
+          -resolvePackageDependencies
+          -project "Ollama Swift.xcodeproj"
+
+      - name: Build app
+        run: >-
+          xcodebuild
+          -project "Ollama Swift.xcodeproj"
+          -scheme "Ollama Swift"
+          -configuration Debug
+          -destination "platform=macOS"
+          CODE_SIGNING_ALLOWED=NO
+          build
+
+      - name: Run unit tests
+        run: >-
+          xcodebuild
+          -project "Ollama Swift.xcodeproj"
+          -scheme "Ollama Swift"
+          -configuration Debug
+          -destination "platform=macOS"
+          CODE_SIGNING_ALLOWED=NO
+          -only-testing:"Ollama SwiftTests"
+          test
